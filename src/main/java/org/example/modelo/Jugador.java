@@ -1,20 +1,38 @@
 package org.example.modelo;
 
+
 public class Jugador {
 
-    private String nombre;
-    private int puntaje;
+
     private int vida;
     private int posicionX;
     private int posicionY;
     private int cooldownDisparo;
+    private int ancho;
+    private int alto;
 
-    public Jugador(String nombre, int puntaje, int vida, int posicionX, int posicionY, int cooldownDisparo) {
-        this.nombre = nombre;
-        this.puntaje = puntaje;
+    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo) {
         this.vida = vida;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
+    }
+    public int restarVida(){
+        if (vida > 0){
+            vida--;
+        }
+        return vida;
+    }
+    public boolean estaVivo(){
+        if (vida > 0){
+            return true;
+        }
+        else return false;
+    }
+
+    public int sumarVida (){
+        if (vida > 0){
+            vida++;}
+        return vida;
     }
 }

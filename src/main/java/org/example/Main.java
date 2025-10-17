@@ -1,17 +1,25 @@
 package org.example;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+// IMPORTS
+import javax.swing.*;
+import org.example.vista.VentanaPrincipal;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        // Inicio interfaz grafica
+        SwingUtilities.invokeLater(() -> {
+            try {
+                javax.swing.UIManager.setLookAndFeel(
+                        javax.swing.UIManager.getSystemLookAndFeelClassName());  //Busca poner el LaF nativo
+            } catch (Exception e) {
+                System.err.println("No se pudo configurar el look and feel: " + e.getMessage());
+            }
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+            // Crear y mostrar la ventana principal
+            VentanaPrincipal ventana = new VentanaPrincipal();
+            ventana.setVisible(true);
+
+            System.out.println("Juego Iniciado");
+        });
     }
 }
