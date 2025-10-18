@@ -11,7 +11,7 @@ public class Jugador {
     private int ancho;
     private int alto;
 
-    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo) {
+    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int altoJugador, int anchoJugador) {
         this.vida = vida;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
