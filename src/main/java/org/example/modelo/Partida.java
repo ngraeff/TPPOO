@@ -21,4 +21,60 @@ public class Partida {
         this.vidaJugador = vidaJugador;
         this.nombreJugador = nombreJugador;
     }
+
+    public void setVidaJugador(int vidaJugador) {
+        this.vidaJugador = vidaJugador;
+    }
+
+    public void setPuntosJugador(int puntosJugador) {
+        this.puntosJugador = puntosJugador;
+    }
+
+    public void setNombreJugador(String nombreJugador) {
+        this.nombreJugador = nombreJugador;
+    }
+
+    public void setCreditosJugador(int creditosJugador) {
+        this.creditosJugador = creditosJugador;
+    }
+
+    public void setEstadoJugador(int estadoJugador) {
+        this.estadoJugador = estadoJugador;
+    }
+
+    public void setDificultad(Dificultad dificultad) {
+        this.dificultad = dificultad;
+    }
+
+    public void setEstadoDeJuego(EstadoDeJuego estadoDeJuego) {
+        this.estadoDeJuego = estadoDeJuego;
+    }
+
+    public int getVidaJugador() {
+        return vidaJugador;
+    }
+
+    public int getPuntosJugador() {
+        return puntosJugador;
+    }
+
+    public String getNombreJugador() {
+        return nombreJugador;
+    }
+
+    public int getCreditosJugador() {
+        return creditosJugador;
+    }
+
+    public int getEstadoJugador() {
+        return estadoJugador;
+    }
+
+    public EstadoDeJuego getEstadoDeJuego() {
+        return estadoDeJuego;
+    }
+
+    public Dificultad getDificultad() {
+        return dificultad;
+    }
 }

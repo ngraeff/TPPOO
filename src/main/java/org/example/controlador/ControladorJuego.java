@@ -21,11 +21,11 @@ public class ControladorJuego {
     }
 
     public void cargarCreditos(int creditosACargar){
-        this.partida.cargarCreditos(creditosACargar);
+        this.partida.setCreditosJugador(creditosACargar);
     }
 
     public void seleccionarDificultad(Dificultad dificultad){
-        this.partida.setearDificultad(dificultad);
+        this.partida.setDificultad(dificultad);
         this.jugador = new Jugador(
                 dificultad.getVidaInicialJugador(),
                 dificultad.getPosicionJugadorX(),
@@ -38,7 +38,7 @@ public class ControladorJuego {
     }
 
     public void setearNombreDeJugador(String nombreJugador){
-        this.partida.setNombre(nombreJugador);
+        this.partida.setNombreJugador(nombreJugador);
     }
 
     public void iniciarJuego(){
@@ -49,12 +49,12 @@ public class ControladorJuego {
             vista.errorDificultadSinInformar();
             return;
         }
-        if (this.partida.getCreditos()< this.partida.getDificultad().getCreditosParaIniciar()){
+        if (this.partida.getCreditosJugador()< this.partida.getDificultad().getCreditosParaIniciar()){
             System.out.println("Creditos insuficientes, por favor cargar mas");
             vista.errorCreditosInsuficientes();
             return;
         }
-        this.partida.setEstado(EstadoDeJuego.EN_CURSO);
+        this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
         //empieza el juego
 
     }
