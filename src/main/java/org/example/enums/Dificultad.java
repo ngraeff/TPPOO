@@ -1,6 +1,7 @@
 package org.example.enums;
 
 public enum Dificultad {
+    SIN_INFORMAR(0,0,0,0,0,0,0,0,0),
     FACIL(5,0,1,400,300,1,50,50,100),
     MEDIO(3,0,2,400,300,1,50,50,200),
     DIFICIL(1,0,3,400,300,1,50,50,300);
