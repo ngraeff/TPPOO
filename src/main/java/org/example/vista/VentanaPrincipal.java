@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class VentanaPrincipal extends JFrame {
     // Componentes de clase
@@ -41,8 +43,8 @@ public class VentanaPrincipal extends JFrame {
     // CONSTRUCTOR
     public VentanaPrincipal() {
         //this.controlador = new ControladorJuego(this);
-        inicializarComponentes();
-        configurarVentana();
+        inicializarComponentes(); // Creacion de los componentes (parte interna)
+        configurarVentana();  // Configuracion de la ventana (parte externa)
         //controlador.configurarPanelJuego();
         //mostrarMenuPrincipal();
     }
@@ -54,13 +56,13 @@ public class VentanaPrincipal extends JFrame {
         //crearPanelJuego();
         //crearPanelRanking();
 
-        //panelPrincipal.add(panelMenu, "MENU");
+        panelPrincipal.add(panelMenu, "MENU");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
         //panelPrincipal.add(panelJuego, "JUEGO");
         //panelPrincipal.add(panelRanking, "RANKING");
     }
 
-    private void crearPanelMenu() {
+    private void crearPanelMenu() {  // CREACION DEL MENU PRINCIPAL
         panelMenu = new JPanel(new BorderLayout());
         panelMenu.setBackground(Color.BLACK);
 
@@ -79,22 +81,46 @@ public class VentanaPrincipal extends JFrame {
         btnRanking = new JButton("RANKING");
         btnSalir = new JButton("SALIR");
 
-        //configurarBoton(btnJugar);
-        //configurarBoton(btnRanking);
-        //configurarBoton(btnSalir);
+        // LLAMO A LA CONFIGURACION DE LOS BOTONES
+        configurarBoton(btnJugar);
+        configurarBoton(btnRanking);
+        configurarBoton(btnSalir);
 
         //btnJugar.addActionListener(e -> mostrarPanelCreditos());
         //btnRanking.addActionListener(e -> mostrarRanking());
         btnSalir.addActionListener(e -> System.exit(0));
 
-        //panelBotones.add(btnJugar);
-        //panelBotones.add(btnRanking);
+        panelBotones.add(btnJugar);
+        panelBotones.add(btnRanking);
         panelBotones.add(btnSalir);
 
         panelMenu.add(lblTitulo, BorderLayout.NORTH);
         panelMenu.add(panelBotones, BorderLayout.CENTER);
     }
 
+
+    // CONFIGURACION DE LOS BOTONES
+    private void configurarBoton(JButton boton) {
+        boton.setFont(new Font("Arial", Font.BOLD, 16));
+        boton.setForeground(Color.BLACK); // Color del texto del boton
+        boton.setBackground(Color.WHITE); // Color de borde del boton
+        boton.setBorder(BorderFactory.createRaisedBevelBorder());
+        boton.setFocusPainted(false);
+        boton.setPreferredSize(new Dimension(200, 50));
+
+            // Agregar efecto hover
+    boton.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            boton.setBackground(Color.CYAN); // Color cuando el mouse está encima
+        }
+        
+        @Override
+        public void mouseExited(MouseEvent e) {
+            boton.setBackground(Color.WHITE); // Color original
+        }
+    });
+    }
 
     // =======================================================
 
