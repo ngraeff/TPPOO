@@ -9,6 +9,7 @@ import org.example.modelo.Oleada;
 import org.example.modelo.NaveInvasora;
 import org.example.vista.VentanaPrincipal;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorJuego {
@@ -90,53 +91,74 @@ public class ControladorJuego {
     }
 
     // METODOS MOVIMIENTO
-public void manejarTecla(int codigoTecla) {
-    switch(codigoTecla) {
-        case KeyEvent.VK_LEFT:
-            jugador.moverIzquierda(0);
-            break;
-        case KeyEvent.VK_RIGHT:
-            jugador.moverDerecha(800); // Ancho de la ventana
-            break;
-        case KeyEvent.VK_SPACE:
-            // Lógica para disparar
-            break;
-    }
-}
-
-
-// GETTERS para la vista
-public Jugador getJugador() {
-    return this.jugador;
-}
-
-public List<NaveInvasora> getNavesVivas() {
-    if(oleada != null) {
-        return oleada.getNavesVivas();
-    }
-    return null;
-}
-
-public void actualizarJuego() {
-    // Lógica del juego (movimiento de invasores, colisiones, etc.)
-    if(oleada != null) {
-        oleada.moverTodas();
-    }
-}
-
-public void crearOleadaInvasores() {
-    java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
-    
-    // Crear 5 filas x 8 columnas de invasores
-    for(int fila = 0; fila < 5; fila++) {
-        for(int col = 0; col < 8; col++) {
-            int x = 50 + col * 60;
-            int y = 50 + fila * 40;
-            NaveInvasora nave = new NaveInvasora(x, y, 1, true);
-            naves.add(nave);
+    public void manejarTecla(int codigoTecla) {
+        switch(codigoTecla) {
+            case KeyEvent.VK_LEFT:
+                jugador.moverIzquierda(0);
+                break;
+            case KeyEvent.VK_RIGHT:
+                jugador.moverDerecha(800); // Ancho de la ventana
+                break;
+            case KeyEvent.VK_SPACE:
+                // Lógica para disparar
+                break;
         }
     }
-    
-    this.oleada = new Oleada(naves, 1);
-}
+
+
+    // GETTERS para la vista
+
+    public List<Integer> getDatosJugadorADibujar() {
+
+        List<Integer> datosJugador = new ArrayList<>();
+        datosJugador.add(this.jugador.getPosicionX());
+        datosJugador.add(this.jugador.getPosicionY());
+        datosJugador.add(this.jugador.getAncho());
+        datosJugador.add(this.jugador.getAlto());
+        return datosJugador;
+    }
+
+    public Jugador getJugador() {
+        return this.jugador;
+    }
+
+    public List<NaveInvasora> getNavesVivas() {
+        if(oleada != null) {
+            return oleada.getNavesVivas();
+        }
+        return null;
+    }
+
+    public void actualizarJuego() {
+        // Lógica del juego (movimiento de invasores, colisiones, etc.)
+        if(oleada != null) {
+            oleada.moverTodas();
+        }
+    }
+
+    public List<int[]> getDatosNavesInvasoras() {
+        List<int[]> datos = new ArrayList<>();
+
+        for (NaveInvasora nave : oleada.getNavesVivas()) {
+            datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
+        }
+
+        return datos;
+    }
+
+    public void crearOleadaInvasores() {
+        java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
+
+        // Crear 5 filas x 8 columnas de invasores
+        for(int fila = 0; fila < 5; fila++) {
+            for(int col = 0; col < 8; col++) {
+                int x = 50 + col * 60;
+                int y = 50 + fila * 40;
+                NaveInvasora nave = new NaveInvasora(x, y, 1, true);
+                naves.add(nave);
+            }
+        }
+
+        this.oleada = new Oleada(naves, 1);
+    }
 }
