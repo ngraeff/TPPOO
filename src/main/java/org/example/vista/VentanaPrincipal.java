@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import org.example.enums.Dificultad;
 
 public class VentanaPrincipal extends JFrame {
     // Componentes de clase
@@ -41,8 +42,8 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnVolverMenu;
 
     // CONSTRUCTOR
-    public VentanaPrincipal() {
-        //this.controlador = new ControladorJuego(this);
+    public VentanaPrincipal(ControladorJuego controlador) {
+        this.controlador = controlador;
         inicializarComponentes(); // Creacion de los componentes (parte interna)
         configurarVentana();  // Configuracion de la ventana (parte externa)
         //controlador.configurarPanelJuego();
@@ -52,13 +53,13 @@ public class VentanaPrincipal extends JFrame {
     private void inicializarComponentes() {
         panelPrincipal = new JPanel(new CardLayout());
         crearPanelMenu();
+        crearPanelJuego();
         //crearPanelCreditos();
-        //crearPanelJuego();
         //crearPanelRanking();
 
         panelPrincipal.add(panelMenu, "MENU");
+        panelPrincipal.add(panelJuego, "JUEGO");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
-        //panelPrincipal.add(panelJuego, "JUEGO");
         //panelPrincipal.add(panelRanking, "RANKING");
     }
 
@@ -86,7 +87,7 @@ public class VentanaPrincipal extends JFrame {
         configurarBoton(btnRanking);
         configurarBoton(btnSalir);
 
-        //btnJugar.addActionListener(e -> mostrarPanelCreditos());
+        btnJugar.addActionListener(e -> mostrarPanelJuego());
         //btnRanking.addActionListener(e -> mostrarRanking());
         btnSalir.addActionListener(e -> System.exit(0));
 
@@ -98,6 +99,52 @@ public class VentanaPrincipal extends JFrame {
         panelMenu.add(panelBotones, BorderLayout.CENTER);
     }
 
+    private void crearPanelJuego() {
+        panelJuego = new JPanel(new BorderLayout());
+        panelJuego.setBackground(Color.BLACK);
+        
+        // Canvas del juego
+        panelJuegoCanvas = new PanelJuego(controlador);
+        
+        // Panel de información
+        JPanel panelInfo = new JPanel();
+        panelInfo.setBackground(Color.DARK_GRAY);
+        panelInfo.setPreferredSize(new Dimension(800, 50));
+        
+        lblInfoJuego = new JLabel("Puntuación: 0 | Vidas: 3");
+        lblInfoJuego.setForeground(Color.WHITE);
+        lblInfoJuego.setFont(new Font("Arial", Font.BOLD, 16));
+        panelInfo.add(lblInfoJuego);
+        
+        // Botones de control
+        JPanel panelControles = new JPanel();
+        panelControles.setBackground(Color.DARK_GRAY);
+        panelControles.setPreferredSize(new Dimension(800, 50));
+        
+        btnPausar = new JButton("PAUSAR");
+        btnTerminar = new JButton("TERMINAR");
+        configurarBoton(btnPausar);
+        configurarBoton(btnTerminar);
+        
+        panelControles.add(btnPausar);
+        panelControles.add(btnTerminar);
+        
+        panelJuego.add(panelInfo, BorderLayout.NORTH);
+        panelJuego.add(panelJuegoCanvas, BorderLayout.CENTER);
+        panelJuego.add(panelControles, BorderLayout.SOUTH);
+    }
+
+    private void mostrarPanelJuego() {
+        // Crear oleada de invasores
+        controlador.crearOleadaInvasores();
+        controlador.crearJugador(Dificultad.FACIL);
+        controlador.iniciarJuego();
+        
+        // Cambiar al panel de juego
+        CardLayout layout = (CardLayout) panelPrincipal.getLayout();
+        layout.show(panelPrincipal, "JUEGO");
+        panelJuegoCanvas.requestFocus(); // Para que funcione el KeyListener
+    }
 
     // CONFIGURACION DE LOS BOTONES
     private void configurarBoton(JButton boton) {

@@ -12,4 +12,20 @@ public class NaveInvasora {
         this.velocidadDeMovimiento = velocidadDeMovimiento;
         this.estaViva = estaViva;
     }
+
+    // METODOS MOVIMIENTO
+public void mover() {
+    this.posicionX += this.velocidadDeMovimiento;
+}
+
+public void cambiarDireccion() {
+    this.velocidadDeMovimiento *= -1;
+    this.posicionY += 20; // Bajar una fila
+}
+
+// Getters para la vista
+public int getPosicionX() { return posicionX; }
+public int getPosicionY() { return posicionY; }
+public boolean isEstaViva() { return estaViva; }
+public void setEstaViva(boolean viva) { this.estaViva = viva; }
 }

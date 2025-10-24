@@ -10,6 +10,10 @@ import org.example.vista.VentanaPrincipal;
 public class Main {
     public static void main(String[] args) {
 
+        // Levanto controlador
+        ControladorJuego controladorJuego = new ControladorJuego();
+
+
 
          // Inicio interfaz grafica
          SwingUtilities.invokeLater(() -> {
@@ -20,18 +24,13 @@ public class Main {
                          System.err.println("No se pudo configurar el look and feel: " + e.getMessage());
                      }
                      // Crear y mostrar la ventana principal
-                     VentanaPrincipal ventana = new VentanaPrincipal();
+                     VentanaPrincipal ventana = new VentanaPrincipal(controladorJuego);
                      ventana.setVisible(true);
 
 
                      System.out.println("Iniciando juego");
                  });
         // ------------------------------
-        //ControladorJuego controladorJuego = new ControladorJuego();
-        //SE ELIGE LA DIFICULTAD EN PANTALLA INICIAL
-        //CUANDO SE DA CLICK AL INICIO DE PARTIDA SE CREA LA PARTIDA
-        //controladorJuego.crearJugador(Dificultad.FACIL);
-        //controladorJuego.crearPartida(Dificultad.FACIL,0,100,"Nicolas");
 
 
 

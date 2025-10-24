@@ -16,6 +16,8 @@ public class Jugador {
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
+        this.alto = altoJugador;
+        this.ancho = anchoJugador;
     }
     public int restarVida(){
         if (vida > 0){
@@ -35,4 +37,24 @@ public class Jugador {
             vida++;}
         return vida;
     }
+
+    // MOVIMIENTO 
+    // Agregar estos métodos a la clase Jugador
+public void moverIzquierda(int limiteIzquierdo) {
+    if(this.posicionX > limiteIzquierdo) {
+        this.posicionX -= 10;
+    }
+}
+
+public void moverDerecha(int limiteDerecho) {
+    if(this.posicionX < limiteDerecho - this.ancho) {
+        this.posicionX += 10;
+    }
+}
+
+// Getters para la vista
+public int getPosicionX() { return posicionX; }
+public int getPosicionY() { return posicionY; }
+public int getAncho() { return ancho; }
+public int getAlto() { return alto; }
 }
