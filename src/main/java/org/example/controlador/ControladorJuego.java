@@ -256,9 +256,14 @@ public class ControladorJuego {
         return datosJugador;
     }
 
+    /***
+     * Setea la Vista principal
+     * @param vista Menu principal del juego.
+     */
     public void setVista(VentanaPrincipal vista) {
         this.vista = vista;
     }
+
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de los proyectiles.
@@ -287,6 +292,10 @@ public class ControladorJuego {
         return datos;
     }
 
+    /***
+     * Devuelve el jugador.
+     * @return Jugador.
+     */
     public Jugador getJugador() {
         return this.jugador;
     }
@@ -303,6 +312,11 @@ public class ControladorJuego {
         if(oleada != null) {
             oleada.moverTodas();
         }
+    }
+
+    public int  getVidaInicial() {
+
+        return partida.getDificultad().getVidaInicialJugador();
     }
 
 

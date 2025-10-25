@@ -9,14 +9,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import org.example.enums.Dificultad;
+
 
 public class VentanaPrincipal extends JFrame {
     // Componentes de clase
     private ControladorJuego controlador;
     private JPanel panelPrincipal;
     private JPanel panelMenu;
-    private JPanel panelJuego;
+    private PanelJuego panelJuego;
     private JPanel panelCreditos;
     private JPanel panelRanking;
     private PanelDificultad panelDificultad;
@@ -33,11 +33,6 @@ public class VentanaPrincipal extends JFrame {
     private JButton btnCargarCreditos;
     private JLabel lblCreditosActuales;
 
-    // Componentes del juego
-    private PanelJuego panelJuegoCanvas;
-    private JLabel lblInfoJuego;
-    private JButton btnPausar;
-    private JButton btnTerminar;
 
     // Componentes del ranking
     private JTextArea txtRanking;
@@ -52,26 +47,23 @@ public class VentanaPrincipal extends JFrame {
         //mostrarMenuPrincipal();
     }
 
+    /***
+     * Inicializa los componentes del menu inicial.
+     */
     private void inicializarComponentes() {
         panelPrincipal = new JPanel(new CardLayout());
         crearPanelMenu();
-        crearPanelJuego();
         //crearPanelCreditos();
         //crearPanelRanking();
-
         panelPrincipal.add(panelMenu, "MENU");
-        panelPrincipal.add(panelJuego, "JUEGO");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
         //panelPrincipal.add(panelRanking, "RANKING");
 
-        //Crea el panel de dificultad
-        panelDificultad = new PanelDificultad(controlador, this);
-
-        panelPrincipal.add(panelMenu, "MENU");
-        panelPrincipal.add(panelJuego, "JUEGO");
-        panelPrincipal.add(panelDificultad, "DIFICULTAD");
     }
 
+    /***
+     * Crea el panel del menu inicial
+     */
     private void crearPanelMenu() {  // CREACION DEL MENU PRINCIPAL
         panelMenu = new JPanel(new BorderLayout());
         panelMenu.setBackground(Color.BLACK);
@@ -92,17 +84,19 @@ public class VentanaPrincipal extends JFrame {
         btnDificultad = new JButton("DIFICULTAD");
         btnSalir = new JButton("SALIR");
 
-        // LLAMO A LA CONFIGURACION DE LOS BOTONES
+        // Configuracion de botones
         configurarBoton(btnJugar);
         configurarBoton(btnRanking);
         configurarBoton(btnDificultad);
         configurarBoton(btnSalir);
 
+        // Agrego funciones a los botones
         btnJugar.addActionListener(e -> mostrarPanelJuego());
         btnDificultad.addActionListener(e -> mostrarPanelDificultad());
         //btnRanking.addActionListener(e -> mostrarRanking());
         btnSalir.addActionListener(e -> System.exit(0));
 
+        // Agrego botones al panel.
         panelBotones.add(btnJugar);
         panelBotones.add(btnRanking);
         panelBotones.add(btnDificultad);
@@ -112,64 +106,51 @@ public class VentanaPrincipal extends JFrame {
         panelMenu.add(panelBotones, BorderLayout.CENTER);
     }
 
+    /***
+     * Crea el panel del juego.
+     */
     private void crearPanelJuego() {
-        panelJuego = new JPanel(new BorderLayout());
-        panelJuego.setBackground(Color.BLACK);
-
-        // Canvas del juego
-        panelJuegoCanvas = new PanelJuego(controlador);
-
-        // Panel de información
-        JPanel panelInfo = new JPanel();
-        panelInfo.setBackground(Color.DARK_GRAY);
-        panelInfo.setPreferredSize(new Dimension(800, 50));
-
-        lblInfoJuego = new JLabel("Puntuación: 0 | Vidas: 3");
-        lblInfoJuego.setForeground(Color.WHITE);
-        lblInfoJuego.setFont(new Font("Arial", Font.BOLD, 16));
-        panelInfo.add(lblInfoJuego);
-
-        // Botones de control
-        JPanel panelControles = new JPanel();
-        panelControles.setBackground(Color.DARK_GRAY);
-        panelControles.setPreferredSize(new Dimension(800, 50));
-
-        btnPausar = new JButton("PAUSAR");
-        btnTerminar = new JButton("TERMINAR");
-        configurarBoton(btnPausar);
-        configurarBoton(btnTerminar);
-
-        panelControles.add(btnPausar);
-        panelControles.add(btnTerminar);
-
-        panelJuego.add(panelInfo, BorderLayout.NORTH);
-        panelJuego.add(panelJuegoCanvas, BorderLayout.CENTER);
-        panelJuego.add(panelControles, BorderLayout.SOUTH);
+        panelJuego = new PanelJuego(controlador);
     }
 
+    /***
+     * Muestra el panel donde se realiza el juego.
+     */
     private void mostrarPanelJuego() {
+        crearPanelJuego();
+        panelPrincipal.add(panelJuego, "JUEGO");
+        boolean juegoIniciado = controlador.iniciarJuego();
+        if (!juegoIniciado) return;
 
-        boolean juegnoIniciado = controlador.iniciarJuego();
-
-        if (!juegnoIniciado) {
-            return;
-        }
-        // Cambiar al panel de juego
         CardLayout layout = (CardLayout) panelPrincipal.getLayout();
         layout.show(panelPrincipal, "JUEGO");
-        panelJuegoCanvas.requestFocus(); // Para que funcione el KeyListener
+
+        ((PanelJuego) panelJuego).enfocarCanvas();
     }
 
+    /***
+     * Muestra el menu principal de nuevo (para volver).
+     */
     public void mostrarMenuPrincipal() {
         ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "MENU");
     }
 
-
+    /***
+     * Muestra el panel para seleccionar la dificultad.
+     */
     private void mostrarPanelDificultad() {
+        //Crea el panel de dificultad
+        panelDificultad = new PanelDificultad(controlador, this);
+        panelPrincipal.add(panelDificultad, "DIFICULTAD");
         ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "DIFICULTAD");
     }
 
     // CONFIGURACION DE LOS BOTONES
+
+    /***
+     * Configura los botones
+     * @param boton Boton a configurar.
+     */
     private void configurarBoton(JButton boton) {
         boton.setFont(new Font("Arial", Font.BOLD, 16));
         boton.setForeground(Color.BLACK); // Color del texto del boton
@@ -194,6 +175,9 @@ public class VentanaPrincipal extends JFrame {
 
     // =======================================================
 
+    /***
+     * Configura la ventana del menu principal
+     */
     private void configurarVentana() {
         setTitle("Space Invaders");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -204,6 +188,11 @@ public class VentanaPrincipal extends JFrame {
         add(panelPrincipal);
     }
 
+    /***
+     * Muestra mensaje de WARNING
+     * @param mensaje Mensaje a mostrar.
+     * @param titulo Titulo a mostrar.
+     */
     public void mostrarMensaje(String mensaje, String titulo) {
         JOptionPane.showMessageDialog(
                 this,
