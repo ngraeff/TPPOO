@@ -90,6 +90,8 @@ public class PanelJuego extends JPanel {
         addHierarchyListener(e -> {
             if (isShowing()) requestFocusInWindow();
         });
+        btnPausar.setFocusable(false);
+        btnTerminar.setFocusable(false);
 
         // ====== Timer del juego ======
         timer = new Timer(16, e -> {
