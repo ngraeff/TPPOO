@@ -1,12 +1,7 @@
 package org.example.controlador;
 
-import org.example.enums.Dificultad;
-import org.example.enums.EstadoDeJuego;
-import org.example.modelo.Jugador;
-import org.example.modelo.Partida;
-import org.example.modelo.Ranking;
-import org.example.modelo.Oleada;
-import org.example.modelo.NaveInvasora;
+import org.example.enums.*;
+import org.example.modelo.*;
 import org.example.vista.VentanaPrincipal;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -18,6 +13,9 @@ public class ControladorJuego {
     private Ranking ranking;
     private Jugador jugador;
     private Oleada oleada;
+    private List<Proyectil> proyectiles = new ArrayList<>();
+    private boolean moviendoseIzquierda = false;
+    private boolean moviendoseDerecha = false;
 
     public ControladorJuego() {
 
@@ -27,28 +25,30 @@ public class ControladorJuego {
         this.vista = null;
     }
 
+    //========================================================================
+    // FUNCIONES DE INICIO JUEGO
+    //========================================================================
+
+    /***
+     * Carga los creditos ingresados por el usuario.
+     * @param creditosACargar cantidad de creditos a cargar.
+     */
     public void cargarCreditos(int creditosACargar){
         this.partida.setCreditosJugador(creditosACargar);
     }
 
+    /***
+     * Selecciona la dificultad del juego y crea todas las variables.
+     * @param dificultad dificultad seleccionada por el usuario.
+     */
     public void seleccionarDificultad(Dificultad dificultad){
         this.partida.setDificultad(dificultad);
-        this.jugador = new Jugador(
-                dificultad.getVidaInicialJugador(),
-                dificultad.getPosicionJugadorX(),
-                dificultad.getPosicionJugadorY(),
-                dificultad.getCooldownJugador(),
-                dificultad.getAltoJugador(),
-                dificultad.getAnchoJugador(),
-                dificultad.getVelocidadDelJugador()
-        );
         //this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador());
     }
 
-    public void setearNombreDeJugador(String nombreJugador){
-        this.partida.setNombreJugador(nombreJugador);
-    }
-
+    /***
+     * Inicia la partida del jugador.
+     */
     public void iniciarJuego(){
 
         //valida condiciones necesarias para crear el juego
@@ -62,52 +62,121 @@ public class ControladorJuego {
             //vista.errorCreditosInsuficientes();
             return;
         }
+        //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
+        crearJugador(Dificultad.FACIL);
+        crearOleadaInvasores();
         //empieza el juego
         //this.partida.comenzarJuego()
     }
 
-
-    //this.partida = new Partida(dificultad, EstadoDeJuego.EN_CURSO,estadoJugador,creditosJugador, dificultad.getPuntosInicialJugador(),dificultad.getVidaInicialJugador(),nombreJugador);        }
-
-
-    public void crearJugador(Dificultad dificultad) {
+    /***
+     * Crea al jugador con la dificultad seleccionada por el usuario.
+     * @param dificultad Dificultad seleccionada por el usuario
+     */
+    private void crearJugador(Dificultad dificultad) {
         this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador(),dificultad.getVelocidadDelJugador());
     }
 
-    private boolean verificarCreditos(Dificultad dificultad, int creditosJugador){
-        boolean puedeJugar = creditosJugador < dificultad.getCreditosParaIniciar() ?  false :  true;
-        return puedeJugar;
+    /***
+     * Crea las oleadas de naves invasoras
+     */
+    private void crearOleadaInvasores() {
+        java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
+
+        // Crear 5 filas x 8 columnas de invasores
+        for(int fila = 0; fila < 5; fila++) {
+            for(int col = 0; col < 8; col++) {
+                int x = 50 + col * 60;
+                int y = 50 + fila * 40;
+                NaveInvasora nave = new NaveInvasora(x, y, 1, true);
+                naves.add(nave);
+            }
+        }
+
+        this.oleada = new Oleada(naves, 1);
     }
 
+    //========================================================================
+    // FUNCIONES DE FIN JUEGO
+    //========================================================================
+
+    /***
+     * Setea el nombre ingresado del jugador
+     * @param nombreJugador Nombre del usuario.
+     */
+    public void setearNombreDeJugador(String nombreJugador){
+        this.partida.setNombreJugador(nombreJugador);
+    }
+
+    /***
+     * Se encarga de terminar la partida cuando se haya quedado sin vidas el jugador.
+     */
     public void finalizarPartida(){
         System.out.println("finalizando partida");
     };
-    public void recargarCreditos(int cantidad){
-       System.out.println("cargar creditos de jugador");
-    }
 
+    //========================================================================
+    // FUNCIONES DE JUEGO
+    //========================================================================
+
+    /***
+     * Avanza el nivel del juego cuando haya terminado la oleada.
+     */
     public void avanzarNivel(){
         System.out.println("avanzando nivel");
     }
 
-    // METODOS MOVIMIENTO
-    public void manejarTecla(int codigoTecla) {
-        switch(codigoTecla) {
+    //========================================================================
+    // FUNCIONES DE MOVIMIENTO
+    //========================================================================
+
+    /***
+     * Setea flag de cual tecla se está presionando.
+     * @param codigoTecla codigo de la tecla presionada.
+     */
+    public void teclaPresionada(int codigoTecla) {
+        switch (codigoTecla) {
             case KeyEvent.VK_LEFT:
-                jugador.moverIzquierda(0);
+                moviendoseIzquierda = true;
                 break;
             case KeyEvent.VK_RIGHT:
-                jugador.moverDerecha(800); // Ancho de la ventana
+                moviendoseDerecha = true;
                 break;
             case KeyEvent.VK_SPACE:
-                // Lógica para disparar
+                // lógica de disparo (sin bloquear movimiento)
+                System.out.println("Disparo!");
                 break;
         }
     }
 
+    /***
+     * Apaga el flag segun que tecla este soltada.
+     * @param codigoTecla tecla soltada.
+     */
+    public void teclaSoltada(int codigoTecla) {
+        switch (codigoTecla) {
+            case KeyEvent.VK_LEFT:
+                moviendoseIzquierda = false;
+                break;
+            case KeyEvent.VK_RIGHT:
+                moviendoseDerecha = false;
+                break;
+        }
+    }
 
-    // GETTERS para la vista
+    /***
+     * Actualiza el panel del juego segun que tecla se este presionando.
+     * @param anchoPanel Ancho del panel del juego.
+     */
+    public void actualizarMovimiento(int anchoPanel) {
+        if (moviendoseIzquierda) jugador.moverIzquierda(0);
+        if (moviendoseDerecha) jugador.moverDerecha(anchoPanel);
+    }
+
+    //========================================================================
+    // GETTER PARA LA VISTA
+    //========================================================================
 
     public List<Integer> getDatosJugadorADibujar() {
 
@@ -147,19 +216,4 @@ public class ControladorJuego {
         return datos;
     }
 
-    public void crearOleadaInvasores() {
-        java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
-
-        // Crear 5 filas x 8 columnas de invasores
-        for(int fila = 0; fila < 5; fila++) {
-            for(int col = 0; col < 8; col++) {
-                int x = 50 + col * 60;
-                int y = 50 + fila * 40;
-                NaveInvasora nave = new NaveInvasora(x, y, 1, true);
-                naves.add(nave);
-            }
-        }
-
-        this.oleada = new Oleada(naves, 1);
-    }
 }

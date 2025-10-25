@@ -135,9 +135,7 @@ public class VentanaPrincipal extends JFrame {
     }
 
     private void mostrarPanelJuego() {
-        // Crear oleada de invasores
-        controlador.crearOleadaInvasores();
-        controlador.crearJugador(Dificultad.FACIL);
+
         controlador.iniciarJuego();
         
         // Cambiar al panel de juego

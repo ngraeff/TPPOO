@@ -27,6 +27,50 @@ public class Proyectil {
         this.velocidad = velocidad;
     }
 
+    public int getPosicionX() {
+        return posicionX;
+    }
+
+    public void setPosicionX(int posicionX) {
+        this.posicionX = posicionX;
+    }
+
+    public int getPosicionY() {
+        return posicionY;
+    }
+
+    public void setPosicionY(int posicionY) {
+        this.posicionY = posicionY;
+    }
+
+    public TipoProyectil getProyectil() {
+        return proyectil;
+    }
+
+    public void setProyectil(TipoProyectil proyectil) {
+        this.proyectil = proyectil;
+    }
+
+    public void setEstaActivo(boolean estaActivo) {
+        this.estaActivo = estaActivo;
+    }
+
+    public int getVelocidad() {
+        return velocidad;
+    }
+
+    public void setVelocidad(int velocidad) {
+        this.velocidad = velocidad;
+    }
+
+    public int getAlto() {
+        return alto;
+    }
+
+    public int getAncho() {
+        return ancho;
+    }
+
     public void mover (){
         if(estaActivo){
             if(proyectil == TipoProyectil.ALIADO){

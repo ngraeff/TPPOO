@@ -13,6 +13,7 @@ public class PanelJuego extends JPanel {
     private ControladorJuego controlador;
     private final VistaJugador vistaJugador;
     private final VistaNaveInvasora vistaNaveInvasora;
+    private Timer timer;
     
     public PanelJuego(ControladorJuego controlador) {
         this.controlador = controlador;
@@ -27,11 +28,20 @@ public class PanelJuego extends JPanel {
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                // Delegar al controlador
-                controlador.manejarTecla(e.getKeyCode());
-                repaint(); // Redibuja el jugador después del movimiento
+                controlador.teclaPresionada(e.getKeyCode());
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                controlador.teclaSoltada(e.getKeyCode());
             }
         });
+
+        timer = new Timer(16, e -> {
+            controlador.actualizarMovimiento(getWidth());
+            repaint();
+        });
+        timer.start();
     }
 
     @Override
