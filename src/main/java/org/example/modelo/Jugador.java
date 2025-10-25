@@ -10,14 +10,16 @@ public class Jugador {
     private int cooldownDisparo;
     private int ancho;
     private int alto;
+    private int velocidadDelJugador;
 
-    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int altoJugador, int anchoJugador) {
+    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int altoJugador, int anchoJugador,int velocidadDelJugador) {
         this.vida = vida;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
         this.alto = altoJugador;
         this.ancho = anchoJugador;
+        this.velocidadDelJugador = velocidadDelJugador;
     }
     public int restarVida(){
         if (vida > 0){
@@ -42,14 +44,18 @@ public class Jugador {
     // Agregar estos métodos a la clase Jugador
 public void moverIzquierda(int limiteIzquierdo) {
     if(this.posicionX > limiteIzquierdo) {
-        this.posicionX -= 10;
+        this.posicionX -= this.velocidadDelJugador ;
     }
 }
 
 public void moverDerecha(int limiteDerecho) {
-    if(this.posicionX < limiteDerecho - this.ancho) {
-        this.posicionX += 10;
+    if(this.posicionX < limiteDerecho - this.ancho*2) {
+        this.posicionX += this.velocidadDelJugador;
     }
+    else {
+        this.posicionX = (limiteDerecho - this.ancho-20);
+    }
+
 }
 
 // Getters para la vista

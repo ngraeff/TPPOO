@@ -39,7 +39,8 @@ public class ControladorJuego {
                 dificultad.getPosicionJugadorY(),
                 dificultad.getCooldownJugador(),
                 dificultad.getAltoJugador(),
-                dificultad.getAnchoJugador()
+                dificultad.getAnchoJugador(),
+                dificultad.getVelocidadDelJugador()
         );
         //this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador());
     }
@@ -71,7 +72,7 @@ public class ControladorJuego {
 
 
     public void crearJugador(Dificultad dificultad) {
-        this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador());
+        this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador(),dificultad.getVelocidadDelJugador());
     }
 
     private boolean verificarCreditos(Dificultad dificultad, int creditosJugador){

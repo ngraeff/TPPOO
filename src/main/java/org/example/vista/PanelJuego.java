@@ -21,6 +21,7 @@ public class PanelJuego extends JPanel {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
         setFocusable(true);
+        requestFocusInWindow();
         
         // Solo manejar eventos de teclado
         addKeyListener(new KeyAdapter() {
@@ -28,6 +29,7 @@ public class PanelJuego extends JPanel {
             public void keyPressed(KeyEvent e) {
                 // Delegar al controlador
                 controlador.manejarTecla(e.getKeyCode());
+                repaint(); // Redibuja el jugador después del movimiento
             }
         });
     }
