@@ -13,12 +13,14 @@ public class PanelJuego extends JPanel {
     private ControladorJuego controlador;
     private final VistaJugador vistaJugador;
     private final VistaNaveInvasora vistaNaveInvasora;
+    private  VistaProyectil vistaProyectil;
     private Timer timer;
     
     public PanelJuego(ControladorJuego controlador) {
         this.controlador = controlador;
         this.vistaJugador = new VistaJugador();
         this.vistaNaveInvasora = new VistaNaveInvasora();
+        this.vistaProyectil = new VistaProyectil();
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -38,7 +40,7 @@ public class PanelJuego extends JPanel {
         });
 
         timer = new Timer(16, e -> {
-            controlador.actualizarMovimiento(getWidth());
+            controlador.actualizarJuego(getWidth());
             repaint();
         });
         timer.start();
@@ -54,5 +56,6 @@ public class PanelJuego extends JPanel {
 
         vistaJugador.dibujar(g2d, controlador.getDatosJugadorADibujar());
         vistaNaveInvasora.dibujar(g2d, controlador.getDatosNavesInvasoras());
+        vistaProyectil.dibujar(g2d,controlador.getDatosProyectiles());
     }
 }

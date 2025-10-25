@@ -13,9 +13,12 @@ public class ControladorJuego {
     private Ranking ranking;
     private Jugador jugador;
     private Oleada oleada;
+    //dispario y movimiento
     private List<Proyectil> proyectiles = new ArrayList<>();
     private boolean moviendoseIzquierda = false;
     private boolean moviendoseDerecha = false;
+    private long ultimoDisparo = 0;
+    private boolean disparoPresionado = false;
 
     public ControladorJuego() {
 
@@ -128,7 +131,7 @@ public class ControladorJuego {
     }
 
     //========================================================================
-    // FUNCIONES DE MOVIMIENTO
+    // FUNCIONES DE TECLAS Y MOVIMIENTO EN PANTALLA
     //========================================================================
 
     /***
@@ -144,8 +147,7 @@ public class ControladorJuego {
                 moviendoseDerecha = true;
                 break;
             case KeyEvent.VK_SPACE:
-                // lógica de disparo (sin bloquear movimiento)
-                System.out.println("Disparo!");
+                disparoPresionado = true;
                 break;
         }
     }
@@ -162,22 +164,86 @@ public class ControladorJuego {
             case KeyEvent.VK_RIGHT:
                 moviendoseDerecha = false;
                 break;
+            case KeyEvent.VK_SPACE:
+                disparoPresionado = false;
+                break;
         }
     }
 
     /***
-     * Actualiza el panel del juego segun que tecla se este presionando.
+     * Actualiza la ventana de juego.
+     * @param anchoPanel Ancho del panel de juego.
+     */
+    public void actualizarJuego(int anchoPanel) {
+        actualizarMovimiento(anchoPanel);
+        actualizarProyectiles();
+
+        // control de disparo continuo con cooldown
+        if (disparoPresionado) {
+            long ahora = System.currentTimeMillis();
+            if (ahora - ultimoDisparo >= jugador.getCooldownDisparo()) {
+                disparar();
+                ultimoDisparo = ahora;
+            }
+        }
+    }
+
+    /***
+     * Actualiza el jugador en el juego segun que tecla se este presionando (derecha o izquierda).
      * @param anchoPanel Ancho del panel del juego.
      */
-    public void actualizarMovimiento(int anchoPanel) {
+    private void actualizarMovimiento(int anchoPanel) {
         if (moviendoseIzquierda) jugador.moverIzquierda(0);
         if (moviendoseDerecha) jugador.moverDerecha(anchoPanel);
     }
+
+    /***
+     * Actualiza el proyectil cuando es disparado.
+     */
+    private void actualizarProyectiles() {
+        List<Proyectil> activos = new ArrayList<>();
+        for (Proyectil p : proyectiles) {
+            if (p.isEstaActivo()) {
+                p.mover();
+                // si sale de la pantalla, se destruye
+                if (p.getPosicionY() < 0) {
+                    p.destruir();
+                } else {
+                    activos.add(p);
+                }
+            }
+        }
+        proyectiles = activos;
+    }
+
+    /***
+     * Crea el proyectil cuando el usuario presiona espacio.
+     */
+    public void disparar() {
+        if (jugador != null) {
+            int xCentro = jugador.getPosicionX() + (jugador.getAncho() / 2);
+            int yInicio = jugador.getPosicionY();
+
+            Proyectil p = new Proyectil(
+                    xCentro,
+                    yInicio,
+                    Proyectil.TipoProyectil.ALIADO,
+                    true,
+                    8
+            );
+            proyectiles.add(p);
+        }
+    }
+
 
     //========================================================================
     // GETTER PARA LA VISTA
     //========================================================================
 
+    /***
+     * Envia los datos necesarios para dibujar a la vista.
+     * @return Datos del jugador.
+     */
     public List<Integer> getDatosJugadorADibujar() {
 
         List<Integer> datosJugador = new ArrayList<>();
@@ -186,6 +252,34 @@ public class ControladorJuego {
         datosJugador.add(this.jugador.getAncho());
         datosJugador.add(this.jugador.getAlto());
         return datosJugador;
+    }
+
+    /***
+     * Envia los datos necesarios para dibujar a la vista.
+     * @return Datos de los proyectiles.
+     */
+    public List<int[]> getDatosProyectiles() {
+        List<int[]> datos = new ArrayList<>();
+        for (Proyectil p : proyectiles) {
+            if (p.isEstaActivo()) {
+                datos.add(new int[] { p.getPosicionX(), p.getPosicionY(), 3, 8 });
+            }
+        }
+        return datos;
+    }
+
+    /***
+     * Envia los datos necesarios para dibujar a la vista.
+     * @return Datos de las naves.
+     */
+    public List<int[]> getDatosNavesInvasoras() {
+        List<int[]> datos = new ArrayList<>();
+
+        for (NaveInvasora nave : oleada.getNavesVivas()) {
+            datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
+        }
+
+        return datos;
     }
 
     public Jugador getJugador() {
@@ -206,14 +300,6 @@ public class ControladorJuego {
         }
     }
 
-    public List<int[]> getDatosNavesInvasoras() {
-        List<int[]> datos = new ArrayList<>();
 
-        for (NaveInvasora nave : oleada.getNavesVivas()) {
-            datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
-        }
-
-        return datos;
-    }
 
 }

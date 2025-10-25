@@ -59,8 +59,10 @@ public void moverDerecha(int limiteDerecho) {
 }
 
 // Getters para la vista
-public int getPosicionX() { return posicionX; }
-public int getPosicionY() { return posicionY; }
-public int getAncho() { return ancho; }
-public int getAlto() { return alto; }
+    public int getPosicionX() { return posicionX; }
+    public int getPosicionY() { return posicionY; }
+    public int getAncho() { return ancho; }
+    public int getAlto() { return alto; }
+    public int getVelocidadDelJugador() { return velocidadDelJugador; }
+    public int getCooldownDisparo() { return cooldownDisparo; }
 }
