@@ -24,7 +24,7 @@ public class ControladorJuego {
 
         this.jugador = null;
         this.ranking = null;
-        this.partida = new Partida(Dificultad.FACIL,EstadoDeJuego.MENU_PRINCIPAL,0,1000,0,0,"Valen");
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,1000,0,0,"Valen");
         this.vista = null;
     }
 
@@ -51,26 +51,28 @@ public class ControladorJuego {
 
     /***
      * Inicia la partida del jugador.
+     * @return Devuelve si es posible iniciar el juego.
      */
-    public void iniciarJuego(){
+    public boolean iniciarJuego(){
 
         //valida condiciones necesarias para crear el juego
         if (this.partida.getDificultad() == Dificultad.SIN_INFORMAR){
-            System.out.println("Seleccione una dificultad");
+            vista.mostrarMensaje("Seleccione una dificultad antes de comenzar el juego.", "Error de configuración");
             //vista.errorDificultadSinInformar();
-            return;
+            return false;
         }
         if (this.partida.getCreditosJugador()< this.partida.getDificultad().getCreditosParaIniciar()){
             System.out.println("Creditos insuficientes, por favor cargar mas");
             //vista.errorCreditosInsuficientes();
-            return;
+            return false;
         }
         //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
-        crearJugador(Dificultad.FACIL);
+        crearJugador(this.partida.getDificultad());
         crearOleadaInvasores();
         //empieza el juego
         //this.partida.comenzarJuego()
+        return true;
     }
 
     /***
@@ -254,6 +256,9 @@ public class ControladorJuego {
         return datosJugador;
     }
 
+    public void setVista(VentanaPrincipal vista) {
+        this.vista = vista;
+    }
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de los proyectiles.

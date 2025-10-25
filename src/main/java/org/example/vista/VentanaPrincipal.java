@@ -19,11 +19,13 @@ public class VentanaPrincipal extends JFrame {
     private JPanel panelJuego;
     private JPanel panelCreditos;
     private JPanel panelRanking;
+    private PanelDificultad panelDificultad;
 
     // Componentes del menú principal
     private JButton btnJugar;
     private JButton btnRanking;
     private JButton btnSalir;
+    private JButton btnDificultad;
     private JLabel lblTitulo;
 
     // Componentes de créditos
@@ -61,6 +63,13 @@ public class VentanaPrincipal extends JFrame {
         panelPrincipal.add(panelJuego, "JUEGO");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
         //panelPrincipal.add(panelRanking, "RANKING");
+
+        //Crea el panel de dificultad
+        panelDificultad = new PanelDificultad(controlador, this);
+
+        panelPrincipal.add(panelMenu, "MENU");
+        panelPrincipal.add(panelJuego, "JUEGO");
+        panelPrincipal.add(panelDificultad, "DIFICULTAD");
     }
 
     private void crearPanelMenu() {  // CREACION DEL MENU PRINCIPAL
@@ -80,19 +89,23 @@ public class VentanaPrincipal extends JFrame {
 
         btnJugar = new JButton("JUGAR");
         btnRanking = new JButton("RANKING");
+        btnDificultad = new JButton("DIFICULTAD");
         btnSalir = new JButton("SALIR");
 
         // LLAMO A LA CONFIGURACION DE LOS BOTONES
         configurarBoton(btnJugar);
         configurarBoton(btnRanking);
+        configurarBoton(btnDificultad);
         configurarBoton(btnSalir);
 
         btnJugar.addActionListener(e -> mostrarPanelJuego());
+        btnDificultad.addActionListener(e -> mostrarPanelDificultad());
         //btnRanking.addActionListener(e -> mostrarRanking());
         btnSalir.addActionListener(e -> System.exit(0));
 
         panelBotones.add(btnJugar);
         panelBotones.add(btnRanking);
+        panelBotones.add(btnDificultad);
         panelBotones.add(btnSalir);
 
         panelMenu.add(lblTitulo, BorderLayout.NORTH);
@@ -102,33 +115,33 @@ public class VentanaPrincipal extends JFrame {
     private void crearPanelJuego() {
         panelJuego = new JPanel(new BorderLayout());
         panelJuego.setBackground(Color.BLACK);
-        
+
         // Canvas del juego
         panelJuegoCanvas = new PanelJuego(controlador);
-        
+
         // Panel de información
         JPanel panelInfo = new JPanel();
         panelInfo.setBackground(Color.DARK_GRAY);
         panelInfo.setPreferredSize(new Dimension(800, 50));
-        
+
         lblInfoJuego = new JLabel("Puntuación: 0 | Vidas: 3");
         lblInfoJuego.setForeground(Color.WHITE);
         lblInfoJuego.setFont(new Font("Arial", Font.BOLD, 16));
         panelInfo.add(lblInfoJuego);
-        
+
         // Botones de control
         JPanel panelControles = new JPanel();
         panelControles.setBackground(Color.DARK_GRAY);
         panelControles.setPreferredSize(new Dimension(800, 50));
-        
+
         btnPausar = new JButton("PAUSAR");
         btnTerminar = new JButton("TERMINAR");
         configurarBoton(btnPausar);
         configurarBoton(btnTerminar);
-        
+
         panelControles.add(btnPausar);
         panelControles.add(btnTerminar);
-        
+
         panelJuego.add(panelInfo, BorderLayout.NORTH);
         panelJuego.add(panelJuegoCanvas, BorderLayout.CENTER);
         panelJuego.add(panelControles, BorderLayout.SOUTH);
@@ -136,12 +149,24 @@ public class VentanaPrincipal extends JFrame {
 
     private void mostrarPanelJuego() {
 
-        controlador.iniciarJuego();
-        
+        boolean juegnoIniciado = controlador.iniciarJuego();
+
+        if (!juegnoIniciado) {
+            return;
+        }
         // Cambiar al panel de juego
         CardLayout layout = (CardLayout) panelPrincipal.getLayout();
         layout.show(panelPrincipal, "JUEGO");
         panelJuegoCanvas.requestFocus(); // Para que funcione el KeyListener
+    }
+
+    public void mostrarMenuPrincipal() {
+        ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "MENU");
+    }
+
+
+    private void mostrarPanelDificultad() {
+        ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "DIFICULTAD");
     }
 
     // CONFIGURACION DE LOS BOTONES
@@ -153,18 +178,18 @@ public class VentanaPrincipal extends JFrame {
         boton.setFocusPainted(false);
         boton.setPreferredSize(new Dimension(200, 50));
 
-            // Agregar efecto hover
-    boton.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseEntered(MouseEvent e) {
-            boton.setBackground(Color.CYAN); // Color cuando el mouse está encima
-        }
-        
-        @Override
-        public void mouseExited(MouseEvent e) {
-            boton.setBackground(Color.WHITE); // Color original
-        }
-    });
+        // Agregar efecto hover
+        boton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                boton.setBackground(Color.CYAN); // Color cuando el mouse está encima
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                boton.setBackground(Color.WHITE); // Color original
+            }
+        });
     }
 
     // =======================================================
@@ -177,6 +202,15 @@ public class VentanaPrincipal extends JFrame {
         setResizable(false);
 
         add(panelPrincipal);
+    }
+
+    public void mostrarMensaje(String mensaje, String titulo) {
+        JOptionPane.showMessageDialog(
+                this,
+                mensaje,
+                titulo,
+                JOptionPane.WARNING_MESSAGE
+        );
     }
 
 }

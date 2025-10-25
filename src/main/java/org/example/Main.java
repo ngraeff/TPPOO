@@ -25,6 +25,7 @@ public class Main {
                      }
                      // Crear y mostrar la ventana principal
                      VentanaPrincipal ventana = new VentanaPrincipal(controladorJuego);
+                     controladorJuego.setVista(ventana);
                      ventana.setVisible(true);
 
 
