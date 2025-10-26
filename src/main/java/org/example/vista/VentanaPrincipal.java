@@ -117,10 +117,12 @@ public class VentanaPrincipal extends JFrame {
      * Muestra el panel donde se realiza el juego.
      */
     private void mostrarPanelJuego() {
+        boolean juegoIniciado = controlador.iniciarJuego();
+
+        if (!juegoIniciado) return;
+
         crearPanelJuego();
         panelPrincipal.add(panelJuego, "JUEGO");
-        boolean juegoIniciado = controlador.iniciarJuego();
-        if (!juegoIniciado) return;
 
         CardLayout layout = (CardLayout) panelPrincipal.getLayout();
         layout.show(panelPrincipal, "JUEGO");
