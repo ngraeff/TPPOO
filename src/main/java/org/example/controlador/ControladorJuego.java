@@ -24,7 +24,7 @@ public class ControladorJuego {
 
         this.jugador = null;
         this.ranking = null;
-        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,1000,0,0,"Valen");
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,50,0,0,"Valen");
         this.vista = null;
     }
 
@@ -58,12 +58,10 @@ public class ControladorJuego {
         //valida condiciones necesarias para crear el juego
         if (this.partida.getDificultad() == Dificultad.SIN_INFORMAR){
             vista.mostrarMensaje("Seleccione una dificultad antes de comenzar el juego.", "Error de configuración");
-            //vista.errorDificultadSinInformar();
             return false;
         }
         if (this.partida.getCreditosJugador()< this.partida.getDificultad().getCreditosParaIniciar()){
-            System.out.println("Creditos insuficientes, por favor cargar mas");
-            //vista.errorCreditosInsuficientes();
+            vista.mostrarMensaje("Por favor, cargue mas creditos para jugar con la dificultad seleccionada.\nUsted tiene " + partida.getCreditosJugador() + " creditos. Necesita " + this.partida.getDificultad().getCreditosParaIniciar() + " creditos para iniciar.", "Creditos Insuficientes");
             return false;
         }
         //Una vez ya validado, crea al jugador y a la primera oleada.
@@ -319,6 +317,9 @@ public class ControladorJuego {
         return partida.getDificultad().getVidaInicialJugador();
     }
 
+    public int getCreditosJugador(){
+        return partida.getCreditosJugador();
+    }
 
 
 }

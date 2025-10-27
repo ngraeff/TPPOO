@@ -29,7 +29,7 @@ public class VentanaPrincipal extends JFrame {
     private JLabel lblTitulo;
 
     // Componentes de créditos
-    private JTextField txtCreditos;
+   // private JTextField txtCreditos;
     private JButton btnCargarCreditos;
     private JLabel lblCreditosActuales;
 
@@ -74,6 +74,21 @@ public class VentanaPrincipal extends JFrame {
         lblTitulo.setForeground(Color.GREEN);
         lblTitulo.setBorder(BorderFactory.createEmptyBorder(50, 0, 50, 0));
 
+        // Opcion creditos
+        JPanel panelCreditos = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelCreditos.setBackground(Color.BLACK);
+
+        lblCreditosActuales = new JLabel("Créditos: " + controlador.getCreditosJugador());
+        lblCreditosActuales.setFont(new Font("Arial", Font.PLAIN, 20));
+        lblCreditosActuales.setForeground(Color.GREEN);
+
+        btnCargarCreditos = new JButton("Cargar");
+        configurarBoton(btnCargarCreditos);
+        btnCargarCreditos.setPreferredSize(new Dimension(100, 30));
+
+        panelCreditos.add(lblCreditosActuales);
+        panelCreditos.add(btnCargarCreditos);
+
         // Panel de botones
         JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 10));
         panelBotones.setBorder(BorderFactory.createEmptyBorder(50, 100, 50, 100));
@@ -94,6 +109,7 @@ public class VentanaPrincipal extends JFrame {
         btnJugar.addActionListener(e -> mostrarPanelJuego());
         btnDificultad.addActionListener(e -> mostrarPanelDificultad());
         //btnRanking.addActionListener(e -> mostrarRanking());
+        btnCargarCreditos.addActionListener(e -> accionBotonCreditos());
         btnSalir.addActionListener(e -> System.exit(0));
 
         // Agrego botones al panel.
@@ -104,6 +120,7 @@ public class VentanaPrincipal extends JFrame {
 
         panelMenu.add(lblTitulo, BorderLayout.NORTH);
         panelMenu.add(panelBotones, BorderLayout.CENTER);
+        panelMenu.add(panelCreditos, BorderLayout.SOUTH);
     }
 
     /***
@@ -147,6 +164,27 @@ public class VentanaPrincipal extends JFrame {
         ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "DIFICULTAD");
     }
 
+    /***
+     *
+     */
+    public void accionBotonCreditos(){
+
+        String input = JOptionPane.showInputDialog(this, "Ingrese cantidad de créditos a cargar:", "Cargar Créditos", JOptionPane.PLAIN_MESSAGE);
+        if (input != null && !input.isEmpty()) {
+            try {
+                int cantidad = Integer.parseInt(input);
+                if (cantidad > 0) {
+                    controlador.cargarCreditos(cantidad);
+                    lblCreditosActuales.setText("Créditos: " + controlador.getCreditosJugador());
+                } else {
+                    mostrarMensaje("Ingrese un número mayor a 0", "Error");
+                }
+            } catch (NumberFormatException ex) {
+                mostrarMensaje("Ingrese un número válido", "Error");
+            }
+        }
+
+    }
     // CONFIGURACION DE LOS BOTONES
 
     /***
@@ -176,7 +214,6 @@ public class VentanaPrincipal extends JFrame {
     }
 
     // =======================================================
-
     /***
      * Configura la ventana del menu principal
      */

@@ -35,7 +35,7 @@ public class Partida {
     }
 
     public void setCreditosJugador(int creditosJugador) {
-        this.creditosJugador = creditosJugador;
+        this.creditosJugador += creditosJugador;
     }
 
     public void setEstadoJugador(int estadoJugador) {
