@@ -3,6 +3,9 @@ package org.example.controlador;
 import org.example.enums.*;
 import org.example.modelo.*;
 import org.example.vista.VentanaPrincipal;
+import org.example.vista.PanelJuego;
+
+import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +16,11 @@ public class ControladorJuego {
     private Ranking ranking;
     private Jugador jugador;
     private Oleada oleada;
+    private Timer timer;
+    private PanelJuego panelJuego;
 
+
+    // flags de teclas
     private boolean moviendoseIzquierda = false;
     private boolean moviendoseDerecha = false;
     private boolean disparoPresionado = false;
@@ -66,9 +73,9 @@ public class ControladorJuego {
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
         crearJugador(this.partida.getDificultad());
         crearOleadaInvasores();
-        //empieza el juego
-        //this.partida.comenzarJuego()
+        iniciarTimer();
         return true;
+
     }
 
     /***
@@ -114,7 +121,6 @@ public class ControladorJuego {
      * Se encarga de terminar la partida cuando se haya quedado sin vidas el jugador.
      */
     public void finalizarPartida(){
-        System.out.println("finalizando partida");
         agregarPartidaAlRanking(partida.getNombreJugador(), partida.getPuntosJugador());
     };
 
@@ -127,6 +133,35 @@ public class ControladorJuego {
      */
     public void avanzarNivel(){
         System.out.println("avanzando nivel");
+    }
+
+    //========================================================================
+    // TIMER DEL JUEGO
+    //========================================================================
+
+    private void iniciarTimer() {
+        if (timer != null && timer.isRunning()) timer.stop();
+
+        timer = new Timer(16, e -> {
+            if (panelJuego != null) {
+                actualizarJuego(panelJuego.getWidth());
+                panelJuego.repaintCanvas();
+            }
+        });
+        timer.start();
+    }
+
+    public void pausarJuego() {
+        if (timer != null) timer.stop();
+    }
+
+    public void reanudarJuego() {
+        if (timer != null) timer.start();
+    }
+
+    public void terminarJuego() {
+        if (timer != null) timer.stop();
+        finalizarPartida();
     }
 
     //========================================================================
@@ -221,6 +256,9 @@ public class ControladorJuego {
         this.vista = vista;
     }
 
+    public void setPanelJuego(PanelJuego panelJuego) {
+        this.panelJuego = panelJuego;
+    }
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de los proyectiles.
@@ -290,6 +328,10 @@ public class ControladorJuego {
             ranking = new Ranking();
         }
         ranking.agregarPartida(nombreJugador, puntosJugador);
+    }
+
+    public int getPuntosPartida(){
+        return this.partida.getPuntosJugador();
     }
 
 }

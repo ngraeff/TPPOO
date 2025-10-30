@@ -127,7 +127,8 @@ public class VentanaPrincipal extends JFrame {
      * Crea el panel del juego.
      */
     private void crearPanelJuego() {
-        panelJuego = new PanelJuego(controlador);
+        panelJuego = new PanelJuego(controlador,this);
+        controlador.setPanelJuego(panelJuego);
     }
 
     /***

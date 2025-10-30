@@ -8,41 +8,43 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PanelJuego extends JPanel {
+
     private final ControladorJuego controlador;
     private final VistaJugador vistaJugador;
     private final VistaNaveInvasora vistaNaveInvasora;
     private final VistaProyectil vistaProyectil;
-    private final Timer timer;
+    private final VentanaPrincipal ventanaPrincipal;
 
-    // Subcomponentes
-    private final JPanel panelInfo;
-    private final JPanel panelControles;
     private final JLabel lblInfoJuego;
-    private final JButton btnPausar;
-    private final JButton btnTerminar;
-
-    // Canvas de dibujo (subpanel interno)
     private final JPanel canvasJuego;
 
-    public PanelJuego(ControladorJuego controlador) {
+    // Botones
+    private final JButton btnPausar;
+    private final JButton btnReanudar;
+    private final JButton btnTerminar;
+
+    public PanelJuego(ControladorJuego controlador, VentanaPrincipal ventanaPrincipal) {
         this.controlador = controlador;
         this.vistaJugador = new VistaJugador();
         this.vistaNaveInvasora = new VistaNaveInvasora();
         this.vistaProyectil = new VistaProyectil();
+        this.ventanaPrincipal = ventanaPrincipal;
 
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        // ====== Panel superior ======
-        panelInfo = new JPanel();
+        // ===== Panel superior =====
+        JPanel panelInfo = new JPanel();
         panelInfo.setBackground(Color.DARK_GRAY);
         panelInfo.setPreferredSize(new Dimension(800, 50));
-        lblInfoJuego = new JLabel("Puntuación: 0 | Vidas: " + this.controlador.getVidaInicial());
+
+        lblInfoJuego = new JLabel("Puntuación: " + controlador.getPuntosPartida() +
+                " | Vidas: " + controlador.getVidaInicial());
         lblInfoJuego.setForeground(Color.WHITE);
         lblInfoJuego.setFont(new Font("Arial", Font.BOLD, 16));
         panelInfo.add(lblInfoJuego);
 
-        // ====== Canvas central ======
+        // ===== Canvas del juego =====
         canvasJuego = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -58,6 +60,7 @@ public class PanelJuego extends JPanel {
         canvasJuego.setBackground(Color.BLACK);
         canvasJuego.setPreferredSize(new Dimension(800, 600));
 
+        // Eventos de teclado
         canvasJuego.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -70,41 +73,67 @@ public class PanelJuego extends JPanel {
             }
         });
 
-        // ====== Panel inferior ======
-        panelControles = new JPanel();
+        // ===== Panel inferior =====
+        JPanel panelControles = new JPanel();
         panelControles.setBackground(Color.DARK_GRAY);
         panelControles.setPreferredSize(new Dimension(800, 50));
+
         btnPausar = new JButton("PAUSAR");
+        btnReanudar = new JButton("REANUDAR");
+        btnReanudar.setVisible(false); // no visible al inicio
         btnTerminar = new JButton("TERMINAR");
+
         panelControles.add(btnPausar);
+        panelControles.add(btnReanudar);
         panelControles.add(btnTerminar);
 
-        // ====== Ensamble ======
+        // Eventos de botones
+        btnPausar.addActionListener(e -> pausarJuego());
+        btnReanudar.addActionListener(e -> reanudarJuego());
+        btnTerminar.addActionListener(e -> terminarJuego());
+
+        // ===== Ensamble =====
         add(panelInfo, BorderLayout.NORTH);
         add(canvasJuego, BorderLayout.CENTER);
         add(panelControles, BorderLayout.SOUTH);
 
-        // ===== Foco del Teclado =====
+        // ===== Foco para teclado =====
         setFocusable(true);
-        requestFocusInWindow();
         addHierarchyListener(e -> {
-            if (isShowing()) requestFocusInWindow();
+            if (isShowing()) enfocarCanvas();
         });
         btnPausar.setFocusable(false);
+        btnReanudar.setFocusable(false);
         btnTerminar.setFocusable(false);
-
-        // ====== Timer del juego ======
-        timer = new Timer(16, e -> {
-            controlador.actualizarJuego(canvasJuego.getWidth());
-            canvasJuego.repaint();
-        });
-        timer.start();
-
-
     }
 
-    /** Para que el foco vaya directo al canvas al iniciar */
+    private void pausarJuego() {
+        controlador.pausarJuego();
+        btnPausar.setVisible(false);
+        btnReanudar.setVisible(true);
+    }
+
+    public void terminarJuego(){
+        controlador.terminarJuego();
+        ventanaPrincipal.mostrarMenuPrincipal();
+    }
+
+    private void reanudarJuego() {
+        controlador.reanudarJuego();
+        btnReanudar.setVisible(false);
+        btnPausar.setVisible(true);
+        enfocarCanvas(); // para que las teclas vuelvan a funcionar
+    }
+
     public void enfocarCanvas() {
         canvasJuego.requestFocusInWindow();
+    }
+
+    public void repaintCanvas() {
+        canvasJuego.repaint();
+    }
+
+    public void actualizarInfo(int puntos, int vidas) {
+        lblInfoJuego.setText("Puntuación: " + puntos + " | Vidas: " + vidas);
     }
 }
