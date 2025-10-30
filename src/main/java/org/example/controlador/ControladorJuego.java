@@ -23,7 +23,7 @@ public class ControladorJuego {
     public ControladorJuego() {
 
         this.jugador = null;
-        this.ranking = null;
+        this.ranking = new Ranking();
         this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,50,0,0,"Valen");
         this.vista = null;
     }
@@ -117,6 +117,7 @@ public class ControladorJuego {
      */
     public void finalizarPartida(){
         System.out.println("finalizando partida");
+        agregarPartidaAlRanking(partida.getNombreJugador(), partida.getPuntosJugador());
     };
 
     //========================================================================
@@ -321,5 +322,27 @@ public class ControladorJuego {
         return partida.getCreditosJugador();
     }
 
+    /**
+     * Obtiene el ranking para mostrar en el panel de ranking.
+     * @return Lista de strings con el ranking ordenado.
+     */
+    public List<String> getRanking(){
+        if (ranking == null) {
+            ranking = new Ranking(); // Inicializar si es null
+        }
+        return ranking.getPartidas();
+    }
+
+    /**
+     * Agrega una partida al ranking.
+     * @param nombreJugador Nombre del jugador.
+     * @param puntosJugador Puntos obtenidos.
+     */
+    public void agregarPartidaAlRanking(String nombreJugador, int puntosJugador){
+        if (ranking == null) {
+            ranking = new Ranking();
+        }
+        ranking.agregarPartida(nombreJugador, puntosJugador);
+    }
 
 }

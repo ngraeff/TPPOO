@@ -12,6 +12,13 @@ public class Main {
 
         // Levanto controlador
         ControladorJuego controladorJuego = new ControladorJuego();
+        
+        // Agregar partidas de prueba al ranking
+        controladorJuego.agregarPartidaAlRanking("Ana", 2500);
+        controladorJuego.agregarPartidaAlRanking("Carlos", 1800);
+        controladorJuego.agregarPartidaAlRanking("María", 3200);
+        controladorJuego.agregarPartidaAlRanking("Luis", 1200);
+        controladorJuego.agregarPartidaAlRanking("Sofia", 2100);
 
 
 

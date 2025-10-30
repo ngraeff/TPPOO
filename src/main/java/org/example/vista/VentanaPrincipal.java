@@ -18,7 +18,7 @@ public class VentanaPrincipal extends JFrame {
     private JPanel panelMenu;
     private PanelJuego panelJuego;
     private JPanel panelCreditos;
-    private JPanel panelRanking;
+    private PanelRanking panelRanking;
     private PanelDificultad panelDificultad;
 
     // Componentes del menú principal
@@ -54,10 +54,10 @@ public class VentanaPrincipal extends JFrame {
         panelPrincipal = new JPanel(new CardLayout());
         crearPanelMenu();
         //crearPanelCreditos();
-        //crearPanelRanking();
+        crearPanelRanking();
         panelPrincipal.add(panelMenu, "MENU");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
-        //panelPrincipal.add(panelRanking, "RANKING");
+        panelPrincipal.add(panelRanking, "RANKING");
 
     }
 
@@ -108,7 +108,7 @@ public class VentanaPrincipal extends JFrame {
         // Agrego funciones a los botones
         btnJugar.addActionListener(e -> mostrarPanelJuego());
         btnDificultad.addActionListener(e -> mostrarPanelDificultad());
-        //btnRanking.addActionListener(e -> mostrarRanking());
+        btnRanking.addActionListener(e -> mostrarRanking());
         btnCargarCreditos.addActionListener(e -> accionBotonCreditos());
         btnSalir.addActionListener(e -> System.exit(0));
 
@@ -240,5 +240,21 @@ public class VentanaPrincipal extends JFrame {
                 JOptionPane.WARNING_MESSAGE
         );
     }
+
+    /***
+     * Crea el panel de ranking.
+     */
+    private void crearPanelRanking() {
+        panelRanking = new PanelRanking(controlador, this);
+    }
+
+    /***
+     * Muestra el panel de ranking.
+     */
+    private void mostrarRanking() {
+        ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "RANKING");
+    }
+
+
 
 }
