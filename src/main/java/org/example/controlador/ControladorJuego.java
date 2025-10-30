@@ -13,11 +13,9 @@ public class ControladorJuego {
     private Ranking ranking;
     private Jugador jugador;
     private Oleada oleada;
-    //dispario y movimiento
-    private List<Proyectil> proyectiles = new ArrayList<>();
+
     private boolean moviendoseIzquierda = false;
     private boolean moviendoseDerecha = false;
-    private long ultimoDisparo = 0;
     private boolean disparoPresionado = false;
 
     public ControladorJuego() {
@@ -177,15 +175,10 @@ public class ControladorJuego {
      */
     public void actualizarJuego(int anchoPanel) {
         actualizarMovimiento(anchoPanel);
-        actualizarProyectiles();
+        jugador.actualizarProyectiles();
 
-        // control de disparo continuo con cooldown
         if (disparoPresionado) {
-            long ahora = System.currentTimeMillis();
-            if (ahora - ultimoDisparo >= jugador.getCooldownDisparo()) {
-                disparar();
-                ultimoDisparo = ahora;
-            }
+            jugador.intentarDisparar();
         }
     }
 
@@ -197,45 +190,6 @@ public class ControladorJuego {
         if (moviendoseIzquierda) jugador.moverIzquierda(0);
         if (moviendoseDerecha) jugador.moverDerecha(anchoPanel);
     }
-
-    /***
-     * Actualiza el proyectil cuando es disparado.
-     */
-    private void actualizarProyectiles() {
-        List<Proyectil> activos = new ArrayList<>();
-        for (Proyectil p : proyectiles) {
-            if (p.isEstaActivo()) {
-                p.mover();
-                // si sale de la pantalla, se destruye
-                if (p.getPosicionY() < 0) {
-                    p.destruir();
-                } else {
-                    activos.add(p);
-                }
-            }
-        }
-        proyectiles = activos;
-    }
-
-    /***
-     * Crea el proyectil cuando el usuario presiona espacio.
-     */
-    public void disparar() {
-        if (jugador != null) {
-            int xCentro = jugador.getPosicionX() + (jugador.getAncho() / 2);
-            int yInicio = jugador.getPosicionY();
-
-            Proyectil p = new Proyectil(
-                    xCentro,
-                    yInicio,
-                    Proyectil.TipoProyectil.ALIADO,
-                    true,
-                    8
-            );
-            proyectiles.add(p);
-        }
-    }
-
 
     //========================================================================
     // GETTER PARA LA VISTA
@@ -268,13 +222,7 @@ public class ControladorJuego {
      * @return Datos de los proyectiles.
      */
     public List<int[]> getDatosProyectiles() {
-        List<int[]> datos = new ArrayList<>();
-        for (Proyectil p : proyectiles) {
-            if (p.isEstaActivo()) {
-                datos.add(new int[] { p.getPosicionX(), p.getPosicionY(), 3, 8 });
-            }
-        }
-        return datos;
+        return jugador.getDatosProyectiles();
     }
 
     /***
