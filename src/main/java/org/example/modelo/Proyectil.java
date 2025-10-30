@@ -88,4 +88,23 @@ public class Proyectil {
 
     }
 
+    public boolean detectaColision(NaveInvasora nave){
+        int px = this.getPosicionX();
+        int py = this.getPosicionY();
+        int pw = this.getAncho();
+        int ph = this.getAlto();
+
+        int nx = nave.getPosicionX();
+        int ny = nave.getPosicionY();
+        int nw = nave.getAncho();
+        int nh = nave.getAlto();
+
+        if(px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
 }

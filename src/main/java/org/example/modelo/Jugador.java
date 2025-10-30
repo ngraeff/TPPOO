@@ -87,16 +87,32 @@ public class Jugador {
         proyectiles.add(nuevo);
     }
 
-    public void actualizarProyectiles() {
+    public void actualizarProyectiles(List<NaveInvasora> navesVivas) {
         List<Proyectil> activos = new ArrayList<>();
         for (Proyectil p : proyectiles) {
-            if (p.isEstaActivo()) {
-                p.mover();
-                if (p.getPosicionY() > 0) {
-                    activos.add(p);
-                } else {
-                    p.destruir();
+            if (!p.isEstaActivo()) continue;
+
+            p.mover();
+
+            if (p.getPosicionY() < 0) {
+                p.destruir();
+                continue;
+            } 
+            
+
+            // Colisiones con las naves enemigas
+            if (navesVivas != null){
+                for (NaveInvasora nave : navesVivas){
+                    if (p.detectaColision(nave)){
+                        p.destruir();
+                        nave.destruir();
+                        break;
+                    }
                 }
+            }
+
+            if (p.isEstaActivo()){
+                activos.add(p);
             }
         }
         proyectiles = activos;

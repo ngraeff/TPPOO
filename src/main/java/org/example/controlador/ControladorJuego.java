@@ -210,7 +210,7 @@ public class ControladorJuego {
      */
     public void actualizarJuego(int anchoPanel) {
         actualizarMovimiento(anchoPanel);
-        jugador.actualizarProyectiles();
+        jugador.actualizarProyectiles(getNavesVivas());
 
         if (disparoPresionado) {
             jugador.intentarDisparar();

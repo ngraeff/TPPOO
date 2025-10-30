@@ -26,6 +26,12 @@ public void cambiarDireccion() {
     this.posicionY += 20; // Bajar una fila
 }
 
+public void destruir(){
+    if(estaViva){
+        this.estaViva = false;
+    }
+}
+
 // Getters para la vista
 public int getPosicionX() { return posicionX; }
 public int getPosicionY() { return posicionY; }
