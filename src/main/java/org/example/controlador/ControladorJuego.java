@@ -90,12 +90,12 @@ public class ControladorJuego {
             for(int col = 0; col < 8; col++) {
                 int x = 50 + col * 60;
                 int y = 50 + fila * 40;
-                NaveInvasora nave = new NaveInvasora(x, y, 1, true);
+                NaveInvasora nave = new NaveInvasora(x, y, this.partida.getDificultad().getVelocidadNavesEnemigas(), true);
                 naves.add(nave);
             }
         }
 
-        this.oleada = new Oleada(naves, 1);
+        this.oleada = new Oleada(naves, this.partida.getDificultad().getVelocidadNavesEnemigas());
     }
 
     //========================================================================
@@ -180,6 +180,10 @@ public class ControladorJuego {
         if (disparoPresionado) {
             jugador.intentarDisparar();
         }
+
+        if (oleada != null) {
+            oleada.actualizar(anchoPanel);
+        }
     }
 
     /***
@@ -254,12 +258,7 @@ public class ControladorJuego {
         return null;
     }
 
-    public void actualizarJuego() {
-        // Lógica del juego (movimiento de invasores, colisiones, etc.)
-        if(oleada != null) {
-            oleada.moverTodas();
-        }
-    }
+    
 
     public int  getVidaInicial() {
 

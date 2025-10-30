@@ -5,6 +5,9 @@ public class NaveInvasora {
     private int posicionY;
     private int velocidadDeMovimiento;
     private boolean estaViva;
+    public final int ancho = 30;
+    public final int alto = 20;
+
 
     public NaveInvasora(int posicionX, int posicionY, int velocidadDeMovimiento, boolean estaViva) {
         this.posicionX = posicionX;
@@ -28,4 +31,7 @@ public int getPosicionX() { return posicionX; }
 public int getPosicionY() { return posicionY; }
 public boolean isEstaViva() { return estaViva; }
 public void setEstaViva(boolean viva) { this.estaViva = viva; }
+public int getAncho() { return ancho; }
+public int getAlto() { return alto; }
+public void setPosicionX(int posicionX) { this.posicionX = posicionX; }
 }
