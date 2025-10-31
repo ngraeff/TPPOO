@@ -4,10 +4,14 @@ import org.example.enums.Dificultad;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Random;
+
 
 public class Oleada {
     private List<NaveInvasora> naveInvasoras;
     private int velocidad;
+    private long ultimoDisparo = 0;
+    private final int coolDown = 700;
 
     public Oleada(List<NaveInvasora> naveInvasoras, int velocidad) {
         this.naveInvasoras = naveInvasoras;
@@ -43,6 +47,7 @@ public class Oleada {
             return;
         }
 
+        dispararProyectilEnemigo();
         moverTodas();
 
         boolean tocoBorde = false;
@@ -68,6 +73,7 @@ public class Oleada {
         }
     }
 
+
     public void moverTodas() {
         for (NaveInvasora nave : naveInvasoras) {
             if (nave.isEstaViva()) {
@@ -88,5 +94,23 @@ public class Oleada {
         return naveInvasoras.stream()
             .filter(NaveInvasora::isEstaViva)
             .collect(Collectors.toList());
+    }
+
+    public void dispararProyectilEnemigo() {
+        long ahora = System.currentTimeMillis();
+        if (ahora - ultimoDisparo < coolDown) {
+            return;
+        }
+
+        List<NaveInvasora> navesVivas = getNavesVivas();
+        if (navesVivas.isEmpty()) return;
+
+
+        Random random = new Random();
+        NaveInvasora nave = navesVivas.get(random.nextInt(navesVivas.size()));
+        nave.disparar();
+
+
+        ultimoDisparo = ahora;
     }
 }

@@ -1,5 +1,7 @@
 package org.example.modelo;
 
+import org.example.enums.TipoProyectil;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class Jugador {
     public int restarVida(){
         if (vida > 0){
             vida--;
+            System.out.println("vida: " + vida);
         }
         return vida;
     }
@@ -75,17 +78,16 @@ public class Jugador {
     private void disparar() {
         int xCentro = this.posicionX + (this.ancho / 2);
         int yInicio = this.posicionY;
-
         Proyectil nuevo = new Proyectil(
                 xCentro,
                 yInicio,
-                Proyectil.TipoProyectil.ALIADO,
+                TipoProyectil.ALIADO,
                 true,
                 8
         );
-
         proyectiles.add(nuevo);
     }
+
 
     public void actualizarProyectiles(List<NaveInvasora> navesVivas) {
         List<Proyectil> activos = new ArrayList<>();

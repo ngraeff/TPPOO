@@ -55,6 +55,7 @@ public class PanelJuego extends JPanel {
                 vistaJugador.dibujar(g2d, controlador.getDatosJugadorADibujar());
                 vistaNaveInvasora.dibujar(g2d, controlador.getDatosNavesInvasoras());
                 vistaProyectil.dibujar(g2d, controlador.getDatosProyectiles());
+                vistaProyectil.dibujar(g2d, controlador.getDatosProyectilesEnemigos());
             }
         };
         canvasJuego.setBackground(Color.BLACK);

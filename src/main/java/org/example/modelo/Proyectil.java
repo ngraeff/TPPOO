@@ -3,14 +3,7 @@ package org.example.modelo;
 import org.example.enums.TipoProyectil;
 
 public class Proyectil {
-    public boolean isEstaActivo() {
-        return estaActivo;
-    }
 
-    public enum TipoProyectil {
-        ENEMIGO,
-        ALIADO;
-    }
     private int posicionX;
     private int posicionY;
     private TipoProyectil proyectil;
@@ -99,12 +92,36 @@ public class Proyectil {
         int nw = nave.getAncho();
         int nh = nave.getAlto();
 
-        if(px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh){
+    if((px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh) && this.proyectil == TipoProyectil.ALIADO){
             return true;
         }
         else{
             return false;
         }
+    }
+
+    public boolean detectaColision(Jugador jugador){
+
+        int px = this.getPosicionX();
+        int py = this.getPosicionY();
+        int pw = this.getAncho();
+        int ph = this.getAlto();
+
+        int nx = jugador.getPosicionX();
+        int ny = jugador.getPosicionY();
+        int nw = jugador.getAncho();
+        int nh = jugador.getAlto();
+
+        if((px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh) && this.proyectil == TipoProyectil.ENEMIGO ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    public boolean isEstaActivo() {
+        return estaActivo;
     }
 
 }
