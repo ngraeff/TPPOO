@@ -7,15 +7,12 @@ import org.example.vista.PanelJuego;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ControladorJuego {
     private VentanaPrincipal vista;
     private Partida partida;
     private Ranking ranking;
-    private Jugador jugador;
-    private Oleada oleada;
     private Timer timer;
     private PanelJuego panelJuego;
 
@@ -26,8 +23,6 @@ public class ControladorJuego {
     private boolean disparoPresionado = false;
 
     public ControladorJuego() {
-
-        this.jugador = null;
         this.ranking = new Ranking();
         this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,50,0,0,"Valen");
         this.vista = null;
@@ -71,38 +66,11 @@ public class ControladorJuego {
         }
         //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
-        crearJugador(this.partida.getDificultad());
-        crearOleadaInvasores();
+        partida.inicializarJugador();
+        partida.crearOleadaInicial();
         iniciarTimer();
         return true;
 
-    }
-
-    /***
-     * Crea al jugador con la dificultad seleccionada por el usuario.
-     * @param dificultad Dificultad seleccionada por el usuario
-     */
-    private void crearJugador(Dificultad dificultad) {
-        this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador(),dificultad.getVelocidadDelJugador());
-    }
-
-    /***
-     * Crea las oleadas de naves invasoras
-     */
-    private void crearOleadaInvasores() {
-        java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
-
-        // Crear 5 filas x 8 columnas de invasores
-        for(int fila = 0; fila < 5; fila++) {
-            for(int col = 0; col < 8; col++) {
-                int x = 50 + col * 60;
-                int y = 50 + fila * 40;
-                NaveInvasora nave = new NaveInvasora(x, y, this.partida.getDificultad().getVelocidadNavesEnemigas(), true);
-                naves.add(nave);
-            }
-        }
-
-        this.oleada = new Oleada(naves, this.partida.getDificultad().getVelocidadNavesEnemigas());
     }
 
     //========================================================================
@@ -209,25 +177,7 @@ public class ControladorJuego {
      * @param anchoPanel Ancho del panel de juego.
      */
     public void actualizarJuego(int anchoPanel) {
-        actualizarMovimiento(anchoPanel);
-        jugador.actualizarProyectiles(getNavesVivas());
-
-        if (disparoPresionado) {
-            jugador.intentarDisparar();
-        }
-
-        if (oleada != null) {
-            oleada.actualizar(anchoPanel);
-        }
-    }
-
-    /***
-     * Actualiza el jugador en el juego segun que tecla se este presionando (derecha o izquierda).
-     * @param anchoPanel Ancho del panel del juego.
-     */
-    private void actualizarMovimiento(int anchoPanel) {
-        if (moviendoseIzquierda) jugador.moverIzquierda(0);
-        if (moviendoseDerecha) jugador.moverDerecha(anchoPanel);
+        partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
     }
 
     //========================================================================
@@ -239,13 +189,7 @@ public class ControladorJuego {
      * @return Datos del jugador.
      */
     public List<Integer> getDatosJugadorADibujar() {
-
-        List<Integer> datosJugador = new ArrayList<>();
-        datosJugador.add(this.jugador.getPosicionX());
-        datosJugador.add(this.jugador.getPosicionY());
-        datosJugador.add(this.jugador.getAncho());
-        datosJugador.add(this.jugador.getAlto());
-        return datosJugador;
+        return partida.getDatosJugadorADibujar();
     }
 
     /***
@@ -264,7 +208,7 @@ public class ControladorJuego {
      * @return Datos de los proyectiles.
      */
     public List<int[]> getDatosProyectiles() {
-        return jugador.getDatosProyectiles();
+        return partida.getDatosProyectiles();
     }
 
     /***
@@ -272,13 +216,7 @@ public class ControladorJuego {
      * @return Datos de las naves.
      */
     public List<int[]> getDatosNavesInvasoras() {
-        List<int[]> datos = new ArrayList<>();
-
-        for (NaveInvasora nave : oleada.getNavesVivas()) {
-            datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
-        }
-
-        return datos;
+        return partida.getDatosNavesInvasoras();
     }
 
     /***
@@ -286,14 +224,11 @@ public class ControladorJuego {
      * @return Jugador.
      */
     public Jugador getJugador() {
-        return this.jugador;
+        return partida.getJugador();
     }
 
     public List<NaveInvasora> getNavesVivas() {
-        if(oleada != null) {
-            return oleada.getNavesVivas();
-        }
-        return null;
+        return partida.getNavesVivas();
     }
 
     
