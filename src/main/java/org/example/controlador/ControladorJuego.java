@@ -90,20 +90,8 @@ public class ControladorJuego {
      * Crea las oleadas de naves invasoras
      */
     private void crearOleadaInvasores() {
-        java.util.List<NaveInvasora> naves = new java.util.ArrayList<>();
-
-        // Crear 5 filas x 8 columnas de invasores
-        for(int fila = 0; fila < 5; fila++) {
-            for(int col = 0; col < 8; col++) {
-                int x = 50 + col * 60;
-                int y = 50 + fila * 40;
-                NaveInvasora nave = new NaveInvasora(x, y, this.partida.getDificultad().getVelocidadNavesEnemigas(), true);
-                naves.add(nave);
-            }
-        }
-
-        this.oleada = new Oleada(naves, this.partida.getDificultad().getVelocidadNavesEnemigas());
-    }
+        this.oleada = Oleada.crearOleadaBasica(this.partida.getDificultad());
+    } 
 
     //========================================================================
     // FUNCIONES DE FIN JUEGO
