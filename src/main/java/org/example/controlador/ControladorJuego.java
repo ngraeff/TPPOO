@@ -177,34 +177,7 @@ public class ControladorJuego {
      * @param anchoPanel Ancho del panel de juego.
      */
     public void actualizarJuego(int anchoPanel) {
-<<<<<<< Updated upstream
         partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
-=======
-        actualizarMovimiento(anchoPanel);
-        jugador.actualizarProyectiles(getNavesVivas());
-
-
-        if (disparoPresionado) {
-            jugador.intentarDisparar();
-        }
-
-        if (oleada != null) {
-            oleada.actualizar(anchoPanel);
-            for(NaveInvasora n : getNavesVivas()) {
-                n.actualizarProyectiles(jugador);
-            }
-
-        }
-    }
-
-    /***
-     * Actualiza el jugador en el juego segun que tecla se este presionando (derecha o izquierda).
-     * @param anchoPanel Ancho del panel del juego.
-     */
-    private void actualizarMovimiento(int anchoPanel) {
-        if (moviendoseIzquierda) jugador.moverIzquierda(0);
-        if (moviendoseDerecha) jugador.moverDerecha(anchoPanel);
->>>>>>> Stashed changes
     }
 
     //========================================================================
@@ -238,15 +211,6 @@ public class ControladorJuego {
         return partida.getDatosProyectiles();
     }
 
-    public List<int[]> getDatosProyectilesEnemigos() {
-        List<int[]> datos = new ArrayList<>();
-        if (oleada != null) {
-            for (NaveInvasora nave : getNavesVivas()) {
-                datos.addAll(nave.getDatosProyectiles()); // cada nave devuelve sus proyectiles
-            }
-        }
-        return datos;
-    }
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de las naves.
