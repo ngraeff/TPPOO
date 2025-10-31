@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Partida {
-    private int vidaJugador;
-    private int puntosJugador;
     private String nombreJugador;
     private int creditosJugador;
     private int estadoJugador;
@@ -17,23 +15,15 @@ public class Partida {
     private Jugador jugador;
     private Oleada oleada;
 
-    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador, int creditosJugador, int puntosJugador, int vidaJugador, String nombreJugador) {
+    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador, int creditosJugador, String nombreJugador) {
         this.dificultad = dificultad;
         this.estadoDeJuego = estadoDeJuego;
         this.estadoJugador = estadoJugador;
         this.creditosJugador = creditosJugador;
-        this.puntosJugador = puntosJugador;
-        this.vidaJugador = vidaJugador;
         this.nombreJugador = nombreJugador;
     }
 
-    public void setVidaJugador(int vidaJugador) {
-        this.vidaJugador = vidaJugador;
-    }
 
-    public void setPuntosJugador(int puntosJugador) {
-        this.puntosJugador = puntosJugador;
-    }
 
     public void setNombreJugador(String nombreJugador) {
         this.nombreJugador = nombreJugador;
@@ -55,12 +45,9 @@ public class Partida {
         this.estadoDeJuego = estadoDeJuego;
     }
 
-    public int getVidaJugador() {
-        return vidaJugador;
-    }
 
     public int getPuntosJugador() {
-        return puntosJugador;
+        return jugador.getPuntos();
     }
 
     public String getNombreJugador() {
@@ -81,6 +68,10 @@ public class Partida {
 
     public Dificultad getDificultad() {
         return dificultad;
+    }
+
+    public int getVidaJugador(){
+        return jugador.getVida();
     }
 
     //========================================================================
@@ -112,20 +103,8 @@ public class Partida {
         if (dificultad == null || dificultad == Dificultad.SIN_INFORMAR) {
             return;
         }
-
         List<NaveInvasora> naves = new ArrayList<>();
-
-        // Crear 5 filas x 8 columnas de invasores
-        for(int fila = 0; fila < 5; fila++) {
-            for(int col = 0; col < 8; col++) {
-                int x = 50 + col * 60;
-                int y = 50 + fila * 40;
-                NaveInvasora nave = new NaveInvasora(x, y, dificultad.getVelocidadNavesEnemigas(), true);
-                naves.add(nave);
-            }
-        }
-
-        this.oleada = new Oleada(naves, dificultad.getVelocidadNavesEnemigas());
+        this.oleada = Oleada.crearOleadaBasica(dificultad);
     }
 
     //========================================================================

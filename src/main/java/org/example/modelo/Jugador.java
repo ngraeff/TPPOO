@@ -9,6 +9,7 @@ public class Jugador {
 
 
     private int vida;
+    private int puntosJugador;
     private int posicionX;
     private int posicionY;
     private int cooldownDisparo;
@@ -20,6 +21,7 @@ public class Jugador {
 
     public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int altoJugador, int anchoJugador, int velocidadDelJugador) {
         this.vida = vida;
+        this.puntosJugador = 0;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
@@ -32,7 +34,6 @@ public class Jugador {
     public int restarVida(){
         if (vida > 0){
             vida--;
-            System.out.println("vida: " + vida);
         }
         return vida;
     }
@@ -106,6 +107,7 @@ public class Jugador {
             if (navesVivas != null){
                 for (NaveInvasora nave : navesVivas){
                     if (p.detectaColision(nave)){
+                        sumarPuntaje();
                         p.destruir();
                         nave.destruir();
                         break;
@@ -142,4 +144,15 @@ public class Jugador {
     public int getAlto() { return alto; }
     public int getVelocidadDelJugador() { return velocidadDelJugador; }
     public int getCooldownDisparo() { return cooldownDisparo; }
+
+    public int getVida() {
+        return vida;
+    }
+
+    public void sumarPuntaje(){
+        this.puntosJugador += 5;
+    }
+    public int getPuntos(){
+        return puntosJugador;
+    }
 }

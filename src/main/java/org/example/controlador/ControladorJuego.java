@@ -25,7 +25,7 @@ public class ControladorJuego {
 
     public ControladorJuego() {
         this.ranking = new Ranking();
-        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,500,0,0,"Valen");
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,500,"Valen");
         this.vista = null;
     }
 
@@ -179,7 +179,9 @@ public class ControladorJuego {
      */
     public void actualizarJuego(int anchoPanel) {
         partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
-
+        if (panelJuego != null) {
+            panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador());
+        }
     }
 
     //========================================================================
