@@ -160,6 +160,9 @@ public class Partida {
         // Actualizar proyectiles (colisiones con naves)
         if (oleada != null) {
             jugador.actualizarProyectiles(oleada.getNavesVivas());
+            for (NaveInvasora n : oleada.getNavesVivas()) {
+                n.actualizarProyectiles(jugador);
+            }
         } else {
             jugador.actualizarProyectiles(null);
         }

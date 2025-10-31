@@ -8,6 +8,7 @@ import org.example.vista.PanelJuego;
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.util.List;
+import java.util.ArrayList;
 
 public class ControladorJuego {
     private VentanaPrincipal vista;
@@ -24,7 +25,7 @@ public class ControladorJuego {
 
     public ControladorJuego() {
         this.ranking = new Ranking();
-        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,50,0,0,"Valen");
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,500,0,0,"Valen");
         this.vista = null;
     }
 
@@ -178,6 +179,7 @@ public class ControladorJuego {
      */
     public void actualizarJuego(int anchoPanel) {
         partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
+
     }
 
     //========================================================================
@@ -211,6 +213,7 @@ public class ControladorJuego {
         return partida.getDatosProyectiles();
     }
 
+
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de las naves.
@@ -218,6 +221,19 @@ public class ControladorJuego {
     public List<int[]> getDatosNavesInvasoras() {
         return partida.getDatosNavesInvasoras();
     }
+
+
+    public List<int[]> getDatosProyectilesEnemigos() {
+        List<int[]> datos = new ArrayList<>();
+
+        if (this.partida.getOleada() != null) {
+            for (NaveInvasora nave : getNavesVivas()) {
+                datos.addAll(nave.getDatosProyectiles()); // cada nave devuelve sus proyectiles
+            }
+        }
+        return datos;
+    }
+
 
     /***
      * Devuelve el jugador.
