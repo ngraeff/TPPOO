@@ -73,21 +73,6 @@ public class ControladorJuego {
 
     }
 
-    /***
-     * Crea al jugador con la dificultad seleccionada por el usuario.
-     * @param dificultad Dificultad seleccionada por el usuario
-     */
-    private void crearJugador(Dificultad dificultad) {
-        this.jugador = new Jugador(dificultad.getVidaInicialJugador(),dificultad.getPosicionJugadorX(),dificultad.getPosicionJugadorY(),dificultad.getCooldownJugador(),dificultad.getAltoJugador(), dificultad.getAnchoJugador(),dificultad.getVelocidadDelJugador());
-    }
-
-    /***
-     * Crea las oleadas de naves invasoras
-     */
-    private void crearOleadaInvasores() {
-        this.oleada = Oleada.crearOleadaBasica(this.partida.getDificultad());
-    } 
-
     //========================================================================
     // FUNCIONES DE FIN JUEGO
     //========================================================================
