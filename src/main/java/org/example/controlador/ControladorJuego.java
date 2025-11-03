@@ -91,12 +91,6 @@ public class ControladorJuego {
         this.partida.setNombreJugador(nombreJugador);
     }
 
-    /***
-     * Se encarga de terminar la partida cuando se haya quedado sin vidas el jugador.
-     */
-    public void finalizarPartida(){
-        agregarPartidaAlRanking(partida.getNombreJugador(), partida.getPuntosJugador());
-    };
 
     //========================================================================
     // FUNCIONES DE JUEGO
@@ -135,7 +129,70 @@ public class ControladorJuego {
 
     public void terminarJuego() {
         if (timer != null) timer.stop();
-        finalizarPartida();
+
+        if (vista != null) {
+
+            switch (partida.getEstadoDeJuego()) {
+                case GAME_OVER_VIDA -> vista.mostrarMensaje(
+                        "¡Te has quedado sin vidas! \nEl juego ha terminado\nPuntaje: " + partida.getPuntosJugador(),
+                        "GAME OVER"
+                );
+                case GAME_OVER_LIMITE -> vista.mostrarMensaje(
+                        "¡Las naves invasoras han alcanzado tu posición!\n\n" +
+                                "Puntuación final: " + partida.getPuntosJugador() + "\n" +
+                                "Vidas restantes: " + partida.getVidaJugador(),
+                        "GAME OVER"
+                );
+                default -> vista.mostrarMensaje(
+                        "Finalizó la partida\n\n" +
+                                "Puntuación final: " + partida.getPuntosJugador(),
+                        "Partida Terminada"
+                );
+            }
+
+            int contador = 1;
+            String  nombre = JOptionPane.showInputDialog(
+                    null,
+                    "Ingrese su nombre para el ranking:",
+                    "Guardar Puntaje",
+                    JOptionPane.PLAIN_MESSAGE
+            );
+
+            while ((nombre == null || nombre.trim().isEmpty()) && contador < 3){
+                contador++;
+                nombre = JOptionPane.showInputDialog(
+                        null,
+                        "Por favor, ingrese su nombre para el ranking:",
+                        "Guardar Puntaje",
+                        JOptionPane.PLAIN_MESSAGE
+                );}
+
+            while (nombre == null || nombre.trim().isEmpty()){
+                contador++;
+                nombre = JOptionPane.showInputDialog(
+                        null,
+                        "Dale loko, ayudame. Ingresa tu nombre para el ranking :) :",
+                        "Guardar Puntaje",
+                        JOptionPane.PLAIN_MESSAGE
+                );}
+            partida.setNombreJugador(nombre.trim());
+            agregarPartidaAlRanking(nombre.trim(), partida.getPuntosJugador());
+            vista.mostrarMensaje("Puntaje guardado exitosamente.", "Ranking");
+        }
+        partida.setEstadoDeJuego(EstadoDeJuego.MENU_PRINCIPAL);
+        reiniciarJuego();
+        // Volver al menú principal si hay vista
+        if (vista != null) {
+            vista.mostrarMenuPrincipal();
+        }
+
+    }
+
+    public void reiniciarJuego() {
+        partida.reiniciar();
+        moviendoseIzquierda = false;
+        moviendoseDerecha = false;
+        disparoPresionado = false;
     }
 
     //========================================================================
@@ -184,49 +241,16 @@ public class ControladorJuego {
      */
     public void actualizarJuego(int anchoPanel) {
         // Solo actualizar si el juego no está en GAME_OVER
-        if (partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER) {
+        if (partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER_LIMITE && partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER_VIDA) {
             partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
-            
-            // Verificar si el juego terminó (GAME_OVER)
-            if (partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER && !gameOverMostrado) {
-                gameOverMostrado = true;
-                mostrarGameOver();
-            }
         }
-        
         if (panelJuego != null) {
             panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador());
         }
-    }
-    
-    /**
-     * Muestra el pop-up de Game Over y finaliza la partida.
-     */
-    private void mostrarGameOver() {
-        // Detener el timer del juego
-        if (timer != null) {
-            timer.stop();
+        //Verifica si partida esta en GAMEOVER
+        if (partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_LIMITE || partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_VIDA) {
+            terminarJuego();
         }
-        
-        // Mostrar pop-up de Game Over
-        SwingUtilities.invokeLater(() -> {
-            JOptionPane.showMessageDialog(
-                panelJuego != null ? panelJuego : null,
-                "¡Las naves invasoras han alcanzado tu posición!\n\n" +
-                "Puntuación final: " + partida.getPuntosJugador() + "\n" +
-                "Vidas restantes: " + partida.getVidaJugador(),
-                "GAME OVER",
-                JOptionPane.INFORMATION_MESSAGE
-            );
-            
-            // Finalizar la partida (agregar al ranking)
-            finalizarPartida();
-            
-            // Volver al menú principal si hay vista
-            if (vista != null) {
-                vista.mostrarMenuPrincipal();
-            }
-        });
     }
 
     //========================================================================

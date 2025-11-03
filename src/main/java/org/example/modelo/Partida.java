@@ -74,6 +74,10 @@ public class Partida {
         return jugador.getVida();
     }
 
+    public boolean jugadorPerdioPorVida(){
+        return this.jugador.getVida() == 0;
+    }
+
     //========================================================================
     // MÉTODOS DE INICIALIZACIÓN DE JUEGO
     //========================================================================
@@ -149,21 +153,32 @@ public class Partida {
         // Actualizar oleada
         if (oleada != null) {
             oleada.actualizar(anchoPanel);
-            
             // Verificar si las naves invasoras alcanzaron el límite crítico (perdiste)
             // GRASP: Information Expert - Partida es experta en información del juego
             int limiteCriticoY = jugador.getPosicionY();
             for (NaveInvasora nave : oleada.getNavesVivas()) {
                 // Verificar si la nave alcanzó o pasó la altura del jugador
                 if (nave.getPosicionY() + nave.getAlto() >= limiteCriticoY) {
-                    estadoDeJuego = EstadoDeJuego.GAME_OVER;
+                    estadoDeJuego = EstadoDeJuego.GAME_OVER_LIMITE;
                     oleada.detenerMovimiento();
-                    break; // Solo necesitamos encontrar una nave que haya alcanzado el límite
+                    return; // Solo necesitamos encontrar una nave que haya alcanzado el límite
                 }
             }
         }
+        // Ver si perdio por vida
+        if (jugadorPerdioPorVida()) {
+            this.estadoDeJuego = EstadoDeJuego.GAME_OVER_VIDA;
+        }
     }
 
+    public void reiniciar() {
+        this.jugador = null;
+        this.oleada = null;
+        this.nombreJugador = null;
+        this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
+        this.dificultad = Dificultad.SIN_INFORMAR;
+        this.estadoJugador = 0;
+    }
     //========================================================================
     // GETTERS PARA ACCESO A OBJETOS DEL JUEGO
     //========================================================================

@@ -5,5 +5,6 @@ public enum EstadoDeJuego {
     EN_CURSO,
     PAUSADO,
     TERMINADO,
-    GAME_OVER
+    GAME_OVER_VIDA,
+    GAME_OVER_LIMITE
 }

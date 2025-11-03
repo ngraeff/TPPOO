@@ -4,7 +4,6 @@ package org.example;
 import javax.swing.*;
 
 import org.example.controlador.ControladorJuego;
-import org.example.enums.Dificultad;
 import org.example.vista.VentanaPrincipal;
 
 public class Main {
