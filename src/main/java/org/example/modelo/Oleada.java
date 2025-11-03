@@ -41,6 +41,20 @@ public class Oleada {
         return new Oleada(naves, velocidadNavesInvasoras);
     }
 
+    /**
+     * Detiene el movimiento de todas las naves invasoras.
+     * Se llama cuando se alcanza el límite crítico.
+     * Como el método detener() fue eliminado, esto simplemente establece la velocidad a 0.
+     */
+    public void detenerMovimiento() {
+        for (NaveInvasora nave : naveInvasoras) {
+            if (nave.isEstaViva()) {
+                // Establecer velocidad a 0 para detener el movimiento
+                nave.setVelocidadDeMovimiento(0);
+            }
+        }
+    }
+
     // METODOS MOVIMIENTO
     public void actualizar(int anchoPanel) {
         if (naveInvasoras == null || naveInvasoras.isEmpty()) {

@@ -101,4 +101,5 @@ public class NaveInvasora {
     public int getAncho() { return ancho; }
     public int getAlto() { return alto; }
     public void setPosicionX(int posicionX) { this.posicionX = posicionX; }
+    public void setVelocidadDeMovimiento(int velocidadDeMovimiento) { this.velocidadDeMovimiento = velocidadDeMovimiento; }
 }

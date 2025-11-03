@@ -22,6 +22,9 @@ public class ControladorJuego {
     private boolean moviendoseIzquierda = false;
     private boolean moviendoseDerecha = false;
     private boolean disparoPresionado = false;
+    
+    // Flag para evitar mostrar el pop-up múltiples veces
+    private boolean gameOverMostrado = false;
 
     public ControladorJuego() {
         this.ranking = new Ranking();
@@ -69,6 +72,8 @@ public class ControladorJuego {
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
         partida.inicializarJugador();
         partida.crearOleadaInicial();
+        // Resetear el flag de game over cuando se inicia una nueva partida
+        gameOverMostrado = false;
         iniciarTimer();
         return true;
 
@@ -178,10 +183,50 @@ public class ControladorJuego {
      * @param anchoPanel Ancho del panel de juego.
      */
     public void actualizarJuego(int anchoPanel) {
-        partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
+        // Solo actualizar si el juego no está en GAME_OVER
+        if (partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER) {
+            partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
+            
+            // Verificar si el juego terminó (GAME_OVER)
+            if (partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER && !gameOverMostrado) {
+                gameOverMostrado = true;
+                mostrarGameOver();
+            }
+        }
+        
         if (panelJuego != null) {
             panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador());
         }
+    }
+    
+    /**
+     * Muestra el pop-up de Game Over y finaliza la partida.
+     */
+    private void mostrarGameOver() {
+        // Detener el timer del juego
+        if (timer != null) {
+            timer.stop();
+        }
+        
+        // Mostrar pop-up de Game Over
+        SwingUtilities.invokeLater(() -> {
+            JOptionPane.showMessageDialog(
+                panelJuego != null ? panelJuego : null,
+                "¡Las naves invasoras han alcanzado tu posición!\n\n" +
+                "Puntuación final: " + partida.getPuntosJugador() + "\n" +
+                "Vidas restantes: " + partida.getVidaJugador(),
+                "GAME OVER",
+                JOptionPane.INFORMATION_MESSAGE
+            );
+            
+            // Finalizar la partida (agregar al ranking)
+            finalizarPartida();
+            
+            // Volver al menú principal si hay vista
+            if (vista != null) {
+                vista.mostrarMenuPrincipal();
+            }
+        });
     }
 
     //========================================================================
