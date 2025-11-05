@@ -71,7 +71,7 @@ public class ControladorJuego {
         //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
         partida.inicializarJugador();
-        partida.crearOleadaInicial();
+        partida.crearOleada();
         // Resetear el flag de game over cuando se inicia una nueva partida
         gameOverMostrado = false;
         iniciarTimer();

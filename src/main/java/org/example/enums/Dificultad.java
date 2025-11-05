@@ -1,10 +1,10 @@
 package org.example.enums;
 
 public enum Dificultad {
-    SIN_INFORMAR(0,0,0,0,0,0,0,0,0,0),
-    FACIL(5,0,5,1,400,400,300,30,30,100),
-    MEDIO(3,0,7,8,400,400,300,30,30,200),
-    DIFICIL(1,0,7,15,400,400,300,30,30,300);
+    SIN_INFORMAR(0,0,0,0,0,0,0,0,0,0,0),
+    FACIL(5,0,5,1,400,400,300,30,30,100, 1),
+    MEDIO(3,0,7,8,400,400,300,30,30,200,2),
+    DIFICIL(1,0,7,15,400,400,300,30,30,300,3);
 
     private final int vidaInicialJugador;
     private final int puntosInicialJugador;
@@ -16,8 +16,9 @@ public enum Dificultad {
     private final int anchoJugador;
     private final int altoJugador;
     private final int creditosParaIniciar;
+    private final int incrementoVelocidadNavesEnemigas;
 
-    Dificultad(int vidaInicialJugador, int puntosInicialJugador,int velocidadDelJugador, int velocidadNavesEnemigas,int posicionJugadorX, int posicionJugadorY,int cooldownDisparo,int anchoJugador,int altoJugador,int creditosParaIniciar) {
+    Dificultad(int vidaInicialJugador, int puntosInicialJugador,int velocidadDelJugador, int velocidadNavesEnemigas,int posicionJugadorX, int posicionJugadorY,int cooldownDisparo,int anchoJugador,int altoJugador,int creditosParaIniciar, int incrementoVelocidadNavesEnemigas) {
         this.vidaInicialJugador = vidaInicialJugador;
         this.puntosInicialJugador = puntosInicialJugador;
         this.velocidadDelJugador = velocidadDelJugador;
@@ -28,7 +29,7 @@ public enum Dificultad {
         this.anchoJugador = anchoJugador;
         this.altoJugador = altoJugador;
         this.creditosParaIniciar = creditosParaIniciar;
-
+        this.incrementoVelocidadNavesEnemigas = incrementoVelocidadNavesEnemigas;
     }
 
     public int getVidaInicialJugador() {
@@ -67,5 +68,9 @@ public enum Dificultad {
 
     public int getCreditosParaIniciar() {
         return creditosParaIniciar;
+    }
+
+    public int getIncrementoVelocidadNavesEnemigas() {
+        return incrementoVelocidadNavesEnemigas;
     }
 }

@@ -24,9 +24,9 @@ public class Oleada {
      * @param dificultad Dificultad del juego que determina la velocidad de las naves.
      * @return Una oleada con 5 filas x 8 columnas de invasores.
      */
-    public static Oleada crearOleadaBasica(Dificultad dificultad) {
+    public static Oleada crearOleadaBasica(Dificultad dificultad, int nivel) {
         List<NaveInvasora> naves = new ArrayList<>();
-        int velocidadNavesInvasoras = dificultad.getVelocidadNavesEnemigas();
+        int velocidadNavesInvasoras = dificultad.getVelocidadNavesEnemigas() + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel;
 
         // Crear 5 filas x 8 columnas de invasores
         for (int fila = 0; fila < 5; fila++) {
@@ -38,7 +38,7 @@ public class Oleada {
             }
         }
 
-        return new Oleada(naves, velocidadNavesInvasoras);
+        return new Oleada(naves, velocidadNavesInvasoras + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel);
     }
 
     /**
@@ -108,6 +108,10 @@ public class Oleada {
         return naveInvasoras.stream()
             .filter(NaveInvasora::isEstaViva)
             .collect(Collectors.toList());
+    }
+
+    public boolean hayNavesVivas() {
+        return !getNavesVivas().isEmpty();
     }
 
     public void dispararProyectilEnemigo() {

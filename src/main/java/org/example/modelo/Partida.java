@@ -14,6 +14,7 @@ public class Partida {
     private Dificultad dificultad;
     private Jugador jugador;
     private Oleada oleada;
+    private int nivel;
 
     public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador, int creditosJugador, String nombreJugador) {
         this.dificultad = dificultad;
@@ -103,12 +104,13 @@ public class Partida {
     /**
      * Crea la primera oleada de naves invasoras.
      */
-    public void crearOleadaInicial() {
+    public void crearOleada() {
         if (dificultad == null || dificultad == Dificultad.SIN_INFORMAR) {
             return;
         }
         List<NaveInvasora> naves = new ArrayList<>();
-        this.oleada = Oleada.crearOleadaBasica(dificultad);
+        this.oleada = Oleada.crearOleadaBasica(dificultad, nivel);
+        
     }
 
     //========================================================================
@@ -169,6 +171,10 @@ public class Partida {
         if (jugadorPerdioPorVida()) {
             this.estadoDeJuego = EstadoDeJuego.GAME_OVER_VIDA;
         }
+
+        if ((oleada != null) && !oleada.hayNavesVivas() ){
+            this.avanzarNivel();
+        }
     }
 
     public void reiniciar() {
@@ -178,6 +184,11 @@ public class Partida {
         this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
         this.dificultad = Dificultad.SIN_INFORMAR;
         this.estadoJugador = 0;
+    }
+
+    public void avanzarNivel() {
+        this.nivel++;
+        this.oleada = Oleada.crearOleadaBasica(dificultad, nivel);
     }
     //========================================================================
     // GETTERS PARA ACCESO A OBJETOS DEL JUEGO
