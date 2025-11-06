@@ -39,7 +39,7 @@ public class PanelJuego extends JPanel {
         panelInfo.setPreferredSize(new Dimension(800, 50));
 
         lblInfoJuego = new JLabel("Puntuación: " + controlador.getPuntosPartida() +
-                " | Vidas: " + controlador.getVidaInicial());
+                " | Vidas: " + controlador.getVidaInicial() + " | Nivel: " + controlador.getNivelPartida());
         lblInfoJuego.setForeground(Color.WHITE);
         lblInfoJuego.setFont(new Font("Arial", Font.BOLD, 16));
         panelInfo.add(lblInfoJuego);
@@ -134,7 +134,7 @@ public class PanelJuego extends JPanel {
         canvasJuego.repaint();
     }
 
-    public void actualizarInfo(int puntos, int vidas) {
-        lblInfoJuego.setText("Puntuación: " + puntos + " | Vidas: " + vidas);
+    public void actualizarInfo(int puntos, int vidas, int nivel) {
+        lblInfoJuego.setText("Puntuación: " + puntos + " | Vidas: " + vidas + " | Nivel: " + nivel);
     }
 }

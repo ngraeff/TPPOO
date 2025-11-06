@@ -22,6 +22,7 @@ public class Partida {
         this.estadoJugador = estadoJugador;
         this.creditosJugador = creditosJugador;
         this.nombreJugador = nombreJugador;
+        this.nivel = 1;
     }
 
 
@@ -207,6 +208,10 @@ public class Partida {
             return oleada.getNavesVivas();
         }
         return new ArrayList<>();
+    }
+
+    public int getNivel() {
+        return nivel;
     }
 
     //========================================================================

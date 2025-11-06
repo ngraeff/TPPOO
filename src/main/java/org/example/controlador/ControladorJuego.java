@@ -245,7 +245,7 @@ public class ControladorJuego {
             partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
         }
         if (panelJuego != null) {
-            panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador());
+            panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador(), partida.getNivel());
         }
         //Verifica si partida esta en GAMEOVER
         if (partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_LIMITE || partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_VIDA) {
@@ -305,6 +305,9 @@ public class ControladorJuego {
         return datos;
     }
 
+    public int getNivelPartida() {
+        return partida.getNivel();
+    }
 
     /***
      * Devuelve el jugador.
