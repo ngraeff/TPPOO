@@ -185,6 +185,7 @@ public class Partida {
         this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
         this.dificultad = Dificultad.SIN_INFORMAR;
         this.estadoJugador = 0;
+        this.nivel= 1;
     }
 
     public void avanzarNivel() {
