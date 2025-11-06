@@ -54,10 +54,10 @@ public class VentanaPrincipal extends JFrame {
         panelPrincipal = new JPanel(new CardLayout());
         crearPanelMenu();
         //crearPanelCreditos();
-        crearPanelRanking();
+        //crearPanelRanking();
         panelPrincipal.add(panelMenu, "MENU");
         //panelPrincipal.add(panelCreditos, "CREDITOS");
-        panelPrincipal.add(panelRanking, "RANKING");
+        //panelPrincipal.add(panelRanking, "RANKING");
 
     }
 
@@ -253,7 +253,10 @@ public class VentanaPrincipal extends JFrame {
      * Muestra el panel de ranking.
      */
     private void mostrarRanking() {
-        ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "RANKING");
+        crearPanelRanking();
+        panelPrincipal.add(panelRanking, "RANKING");
+        CardLayout layout = (CardLayout) panelPrincipal.getLayout();
+        layout.show(panelPrincipal, "RANKING");
     }
 
 
