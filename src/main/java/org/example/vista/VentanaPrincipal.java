@@ -2,11 +2,8 @@ package org.example.vista;
 
 // IMPORTS
 import org.example.controlador.ControladorJuego;
-import org.example.modelo.Jugador;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -17,7 +14,6 @@ public class VentanaPrincipal extends JFrame {
     private JPanel panelPrincipal;
     private JPanel panelMenu;
     private PanelJuego panelJuego;
-    private JPanel panelCreditos;
     private PanelRanking panelRanking;
     private PanelDificultad panelDificultad;
 
@@ -34,9 +30,7 @@ public class VentanaPrincipal extends JFrame {
     private JLabel lblCreditosActuales;
 
 
-    // Componentes del ranking
-    private JTextArea txtRanking;
-    private JButton btnVolverMenu;
+ 
 
     // CONSTRUCTOR
     public VentanaPrincipal(ControladorJuego controlador) {

@@ -7,7 +7,6 @@ import java.util.List;
 public class VistaNaveInvasora {
 
     private Image imagenNave;
-    private Color colorNaves = Color.RED;
     private final int anchoNave = 30;
     private final int altoNave = 20;
 
@@ -25,8 +24,4 @@ public class VistaNaveInvasora {
         }
     }
 
-    // Opcional: si querés cambiar el color de las naves dinámicamente
-    public void setColorNaves(Color colorNaves) {
-        this.colorNaves = colorNaves;
-    }
 }

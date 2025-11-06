@@ -9,13 +9,11 @@ import java.util.Random;
 
 public class Oleada {
     private List<NaveInvasora> naveInvasoras;
-    private int velocidad;
     private long ultimoDisparo = 0;
     private final int coolDown = 700;
 
-    public Oleada(List<NaveInvasora> naveInvasoras, int velocidad) {
+    public Oleada(List<NaveInvasora> naveInvasoras) {
         this.naveInvasoras = naveInvasoras;
-        this.velocidad = velocidad;
     }
 
     /**
@@ -38,7 +36,7 @@ public class Oleada {
             }
         }
 
-        return new Oleada(naves, velocidadNavesInvasoras + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel);
+        return new Oleada(naves);
     }
 
     /**

@@ -23,12 +23,11 @@ public class ControladorJuego {
     private boolean moviendoseDerecha = false;
     private boolean disparoPresionado = false;
     
-    // Flag para evitar mostrar el pop-up múltiples veces
-    private boolean gameOverMostrado = false;
+
 
     public ControladorJuego() {
         this.ranking = new Ranking();
-        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0,500,"Valen");
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0);
         this.vista = null;
     }
 
@@ -73,7 +72,6 @@ public class ControladorJuego {
         partida.inicializarJugador();
         partida.crearOleada();
         // Resetear el flag de game over cuando se inicia una nueva partida
-        gameOverMostrado = false;
         iniciarTimer();
         return true;
 

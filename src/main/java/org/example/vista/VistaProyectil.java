@@ -1,6 +1,5 @@
 package org.example.vista;
 
-import org.example.modelo.Proyectil;
 import java.awt.*;
 import java.util.List;
 

@@ -1,5 +1,4 @@
 package org.example.vista;
-import org.example.modelo.Jugador;
 
 import javax.swing.*;
 import java.awt.*;

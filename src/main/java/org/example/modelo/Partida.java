@@ -16,12 +16,12 @@ public class Partida {
     private Oleada oleada;
     private int nivel;
 
-    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador, int creditosJugador, String nombreJugador) {
+    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador) {
         this.dificultad = dificultad;
         this.estadoDeJuego = estadoDeJuego;
         this.estadoJugador = estadoJugador;
-        this.creditosJugador = creditosJugador;
-        this.nombreJugador = nombreJugador;
+        this.creditosJugador = 500;
+        this.nombreJugador = null;
         this.nivel = 1;
     }
 
@@ -109,7 +109,6 @@ public class Partida {
         if (dificultad == null || dificultad == Dificultad.SIN_INFORMAR) {
             return;
         }
-        List<NaveInvasora> naves = new ArrayList<>();
         this.oleada = Oleada.crearOleadaBasica(dificultad, nivel);
         
     }
