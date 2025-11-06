@@ -47,6 +47,17 @@ public class Partida {
         this.estadoDeJuego = estadoDeJuego;
     }
 
+    public boolean chequearDificultad(){
+        return !(this.dificultad == Dificultad.SIN_INFORMAR);
+    };
+
+    public boolean chequearCreditos(){
+        return !(this.creditosJugador < dificultad.getCreditosParaIniciar());
+    }
+
+    public void restarCreditos(){
+        this.creditosJugador -= dificultad.getCreditosParaIniciar();
+    }
 
     public int getPuntosJugador() {
         return jugador.getPuntos();
@@ -184,6 +195,7 @@ public class Partida {
         this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
         this.dificultad = Dificultad.SIN_INFORMAR;
         this.estadoJugador = 0;
+        this.creditosJugador = 0;
         this.nivel= 1;
     }
 

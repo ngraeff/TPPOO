@@ -13,7 +13,7 @@ public class Jugador {
     private int posicionX;
     private int posicionY;
     private int cooldownDisparo;
-    private int ancho;
+    private int  ancho;
     private int alto;
     private int velocidadDelJugador;
     private List<Proyectil> proyectiles;
@@ -21,7 +21,7 @@ public class Jugador {
 
     public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int altoJugador, int anchoJugador, int velocidadDelJugador) {
         this.vida = vida;
-        this.puntosJugador = 0;
+        this.puntosJugador = 1000;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;

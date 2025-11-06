@@ -59,18 +59,20 @@ public class ControladorJuego {
     public boolean iniciarJuego(){
 
         //valida condiciones necesarias para crear el juego
-        if (this.partida.getDificultad() == Dificultad.SIN_INFORMAR){
+        if (!this.partida.chequearDificultad()){
             vista.mostrarMensaje("Seleccione una dificultad antes de comenzar el juego.", "Error de configuración");
             return false;
         }
-        if (this.partida.getCreditosJugador()< this.partida.getDificultad().getCreditosParaIniciar()){
+        if (!this.partida.chequearCreditos()) {
             vista.mostrarMensaje("Por favor, cargue mas creditos para jugar con la dificultad seleccionada.\nUsted tiene " + partida.getCreditosJugador() + " creditos. Necesita " + this.partida.getDificultad().getCreditosParaIniciar() + " creditos para iniciar.", "Creditos Insuficientes");
             return false;
         }
         //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
+        this.partida.restarCreditos();
         partida.inicializarJugador();
         partida.crearOleada();
+
         // Resetear el flag de game over cuando se inicia una nueva partida
         iniciarTimer();
         return true;
@@ -176,6 +178,8 @@ public class ControladorJuego {
             partida.setNombreJugador(nombre.trim());
             agregarPartidaAlRanking(nombre.trim(), partida.getPuntosJugador());
             vista.mostrarMensaje("Puntaje guardado exitosamente.", "Ranking");
+
+
         }
         partida.setEstadoDeJuego(EstadoDeJuego.MENU_PRINCIPAL);
         reiniciarJuego();
@@ -187,10 +191,12 @@ public class ControladorJuego {
     }
 
     public void reiniciarJuego() {
+        vista.mostrarMensaje("Se devolvieron " + getCreditosJugador() +" creditos.","Devolucion de Creditos");
         partida.reiniciar();
         moviendoseIzquierda = false;
         moviendoseDerecha = false;
         disparoPresionado = false;
+
     }
 
     //========================================================================
