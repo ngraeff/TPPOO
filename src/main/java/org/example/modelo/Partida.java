@@ -15,6 +15,7 @@ public class Partida {
     private Jugador jugador;
     private Oleada oleada;
     private int nivel;
+    private List<MuroDeEnergia> muros;
 
     public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador) {
         this.dificultad = dificultad;
@@ -268,5 +269,29 @@ public class Partida {
             }
         }
         return datos;
+    }
+
+    public List<int[]> getDatosMuro() {
+        List<int[]> datos = new ArrayList<>();
+        if (muros != null) {
+            for (MuroDeEnergia muro : muros) {
+                datos.add(new int[]{muro.getPosicionX(), muro.getPosicionY(), muro.getAncho(), muro.getAlto()});
+            }
+        }
+        return datos;
+    }
+
+    public void crearMuroDeEnergia() {
+        List<MuroDeEnergia> muros = new ArrayList<>();
+        // Crear 5 filas x 8 columnas de invasores
+        for (int fila = 1; fila < 2; fila++) {
+            for (int col = 0; col < 10; col++) {
+                int x = 5 + col * 100;
+                int y = 260 + fila * 40;
+                MuroDeEnergia muro = new MuroDeEnergia(1, x, y, 70, 150);
+                muros.add(muro);
+            }
+        }
+        this.muros = muros;
     }
 }

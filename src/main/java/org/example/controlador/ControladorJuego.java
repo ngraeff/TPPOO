@@ -72,6 +72,7 @@ public class ControladorJuego {
         this.partida.restarCreditos();
         partida.inicializarJugador();
         partida.crearOleada();
+        partida.crearMuroDeEnergia();
 
         // Resetear el flag de game over cuando se inicia una nueva partida
         iniciarTimer();
@@ -288,6 +289,9 @@ public class ControladorJuego {
         return partida.getDatosProyectiles();
     }
 
+    public List<int[]> getDatosMuro() {
+        return partida.getDatosMuro();
+    }
 
     /***
      * Envia los datos necesarios para dibujar a la vista.

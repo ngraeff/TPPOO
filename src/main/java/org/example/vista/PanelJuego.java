@@ -14,6 +14,7 @@ public class PanelJuego extends JPanel {
     private final VistaNaveInvasora vistaNaveInvasora;
     private final VistaProyectil vistaProyectil;
     private final VentanaPrincipal ventanaPrincipal;
+    private final VistaMuro vistaMuro;
 
     private final JLabel lblInfoJuego;
     private final JPanel canvasJuego;
@@ -29,6 +30,7 @@ public class PanelJuego extends JPanel {
         this.vistaNaveInvasora = new VistaNaveInvasora();
         this.vistaProyectil = new VistaProyectil();
         this.ventanaPrincipal = ventanaPrincipal;
+        this.vistaMuro = new VistaMuro();
 
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -54,6 +56,7 @@ public class PanelJuego extends JPanel {
 
                 vistaJugador.dibujar(g2d, controlador.getDatosJugadorADibujar());
                 vistaNaveInvasora.dibujar(g2d, controlador.getDatosNavesInvasoras());
+                vistaMuro.dibujar(g2d,controlador.getDatosMuro());
                 vistaProyectil.dibujar(g2d, controlador.getDatosProyectiles());
                 vistaProyectil.dibujar(g2d, controlador.getDatosProyectilesEnemigos());
             }
