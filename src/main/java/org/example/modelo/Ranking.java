@@ -29,6 +29,11 @@ public class Ranking {
 
     public List<String> getPartidas() {
         int toIndex = Math.min(partidas.size(), 10);
+        if (partidas.isEmpty()){
+            List<String> partidas = new ArrayList<>();
+            partidas.add("NO HAY PARTIDAS - JUGAR PARA CARGAR RANKING");
+            return partidas;
+        }
         return Collections.unmodifiableList(new ArrayList<>(partidas.subList(0, toIndex)));
     }
     
