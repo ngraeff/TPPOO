@@ -171,7 +171,7 @@ public class Partida {
             oleada.actualizar(anchoPanel);
             // Verificar si las naves invasoras alcanzaron el límite crítico (perdiste)
             // GRASP: Information Expert - Partida es experta en información del juego
-            int limiteCriticoY = jugador.getPosicionY();
+            int limiteCriticoY = jugador.getPosicionY()-20;
             for (NaveInvasora nave : oleada.getNavesVivas()) {
                 // Verificar si la nave alcanzó o pasó la altura del jugador
                 if (nave.getPosicionY() + nave.getAlto() >= limiteCriticoY) {
