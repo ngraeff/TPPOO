@@ -147,6 +147,9 @@ public class VentanaPrincipal extends JFrame {
      */
     public void mostrarMenuPrincipal() {
         ((CardLayout) panelPrincipal.getLayout()).show(panelPrincipal, "MENU");
+        //Actualizar creditos en pantalla.
+        lblCreditosActuales.setText("Créditos: " + controlador.getCreditosJugador());
+
     }
 
     /***
