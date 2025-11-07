@@ -97,13 +97,6 @@ public class ControladorJuego {
     // FUNCIONES DE JUEGO
     //========================================================================
 
-    /***
-     * Avanza el nivel del juego cuando haya terminado la oleada.
-     */
-    public void avanzarNivel(){
-        System.out.println("avanzando nivel");
-    }
-
     //========================================================================
     // TIMER DEL JUEGO
     //========================================================================

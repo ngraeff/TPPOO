@@ -205,6 +205,7 @@ public class Partida {
     public void avanzarNivel() {
         this.nivel++;
         this.oleada = Oleada.crearOleadaBasica(dificultad, nivel);
+        crearMuroDeEnergia();
     }
     //========================================================================
     // GETTERS PARA ACCESO A OBJETOS DEL JUEGO
