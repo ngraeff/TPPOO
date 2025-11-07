@@ -156,12 +156,14 @@ public class Partida {
 
         // Actualizar proyectiles (colisiones con naves)
         if (oleada != null) {
-            jugador.actualizarProyectiles(oleada.getNavesVivas());
+            jugador.actualizarProyectiles(oleada.getNavesVivas(),muros);
             for (NaveInvasora n : oleada.getNavesVivas()) {
-                n.actualizarProyectiles(jugador);
+                n.actualizarProyectiles(jugador,muros);
             }
-        } else {
-            jugador.actualizarProyectiles(null);
+        }
+        // Actualizar muro
+        if (muros != null) {
+            muros.removeIf(m -> !m.getEstaVivo());
         }
 
         // Actualizar oleada
@@ -275,7 +277,9 @@ public class Partida {
         List<int[]> datos = new ArrayList<>();
         if (muros != null) {
             for (MuroDeEnergia muro : muros) {
-                datos.add(new int[]{muro.getPosicionX(), muro.getPosicionY(), muro.getAncho(), muro.getAlto()});
+                if(muro.getEstaVivo()){
+                    datos.add(new int[]{muro.getPosicionX(), muro.getPosicionY(), muro.getAncho(), muro.getAlto(),muro.getVida()});
+                }
             }
         }
         return datos;
@@ -287,8 +291,8 @@ public class Partida {
         for (int fila = 1; fila < 2; fila++) {
             for (int col = 0; col < 10; col++) {
                 int x = 5 + col * 100;
-                int y = 260 + fila * 40;
-                MuroDeEnergia muro = new MuroDeEnergia(1, x, y, 70, 150);
+                int y = 300 + fila * 40;
+                MuroDeEnergia muro = new MuroDeEnergia(2, x, y, 60, 60);
                 muros.add(muro);
             }
         }

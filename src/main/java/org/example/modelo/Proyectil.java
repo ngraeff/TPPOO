@@ -120,6 +120,29 @@ public class Proyectil {
         }
     }
 
+    public boolean detectaColision(MuroDeEnergia muro){
+        int px = this.getPosicionX();
+        int py = this.getPosicionY();
+        int pw = this.getAncho();
+        int ph = this.getAlto();
+
+        int nx = muro.getPosicionX();
+        int ny = muro.getPosicionY();
+        int nw = muro.getAncho();
+        int nh = muro.getAlto();
+        if (proyectil == TipoProyectil.ENEMIGO){
+            if(px + pw >= nx && px <= nx + nw && py + ph -30 >= ny && py <= ny + nh){
+                return true;
+            }
+        }else{
+            if(px + pw >= nx && px <= nx + nw && py + ph  >= ny && py <= ny + nh){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean isEstaActivo() {
         return estaActivo;
     }

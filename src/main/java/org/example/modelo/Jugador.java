@@ -90,7 +90,7 @@ public class Jugador {
     }
 
 
-    public void actualizarProyectiles(List<NaveInvasora> navesVivas) {
+    public void actualizarProyectiles(List<NaveInvasora> navesVivas, List<MuroDeEnergia> muros) {
         List<Proyectil> activos = new ArrayList<>();
         for (Proyectil p : proyectiles) {
             if (!p.isEstaActivo()) continue;
@@ -110,6 +110,15 @@ public class Jugador {
                         sumarPuntaje();
                         p.destruir();
                         nave.destruir();
+                        break;
+                    }
+                }
+            }
+            if (muros != null) {
+                for (MuroDeEnergia muro : muros) {
+                    if (p.detectaColision(muro)){
+                        p.destruir();
+                        muro.reducirVida();
                         break;
                     }
                 }

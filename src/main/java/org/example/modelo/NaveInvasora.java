@@ -52,7 +52,7 @@ public class NaveInvasora {
         proyectiles.add(nuevo);
     }
 
-    public void actualizarProyectiles(Jugador jugador) {
+    public void actualizarProyectiles(Jugador jugador,List<MuroDeEnergia> muros) {
         List<Proyectil> activos = new ArrayList<>();
         for (Proyectil p : proyectiles) {
             if (!p.isEstaActivo()) continue;
@@ -74,6 +74,15 @@ public class NaveInvasora {
                     break;
                 }
 
+            }
+            if (muros != null) {
+                for (MuroDeEnergia muro : muros) {
+                    if (p.detectaColision(muro)){
+                        p.destruir();
+                        muro.reducirVida();
+                        break;
+                    }
+                }
             }
 
             if (p.isEstaActivo()){

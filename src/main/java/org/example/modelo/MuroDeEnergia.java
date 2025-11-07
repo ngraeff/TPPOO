@@ -6,6 +6,7 @@ public class MuroDeEnergia {
     private int posicionY;
     private int ancho;
     private int alto;
+    private boolean estaVivo;
 
     public MuroDeEnergia(int vida, int posicionX, int posicionY, int ancho, int alto) {
         this.vida = vida;
@@ -13,6 +14,7 @@ public class MuroDeEnergia {
         this.posicionY = posicionY;
         this.ancho = ancho;
         this.alto = alto;
+        this.estaVivo = true;
     }
     public int getVida() {
         return vida;
@@ -20,33 +22,33 @@ public class MuroDeEnergia {
     public int getPosicionX() {
         return posicionX;
     }
+
     public int getPosicionY() {
         return posicionY;
     }
+
     public int getAncho() {
         return ancho;
     }
+
     public int getAlto() {
         return alto;
     }
+
     public void reducirVida() {
-        if (vida > 0) {
+        if (vida == 0) {
+            estaVivo = false;
+
+        }else{
             vida--;
         }
     }
-    public boolean estaVivo() {
-        if (vida > 0) {
-            return true;
-        }
-        else return false;
+
+    public boolean getEstaVivo() {
+        return estaVivo;
     }
     public void sumarVida() {
         vida++;
     }
-    public boolean destruir() {
-        if (!estaVivo()) {
-            return true;
-        }
-        else return false;
-    }
+
 }
