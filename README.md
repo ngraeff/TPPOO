@@ -5,8 +5,8 @@ Se realizo el Trabajo Practio de la materia "Programación orientada a objetos" 
 ## Datos del TP
 El trabajo fue realizado usando **Java 21** y configurado con **Maven**.
 
-## Installation
-Como precondición, se debe tener instalado Maven. Una vez instalado Maven, correr los siguientes codigos:
+## Instalación
+Como pre-condición, se debe tener instalado Maven. Una vez instalado Maven, correr los siguientes codigos en orden:
 
 ```bash
 git clone https://github.com/ngraeff/TPPOO
