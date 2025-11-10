@@ -18,7 +18,7 @@ cd TPPOO
 mvn clean package
 ```
 ```bash
-java -jar target\TpParadigmas-1.0.jar
+java -jar target\TpParadigmas-Final.jar  
 ```
 ## Integrantes
 
