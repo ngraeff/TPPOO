@@ -1,24 +1,24 @@
 package org.example.enums;
 
 public enum Dificultad {
-    SIN_INFORMAR(0,0,0,0,0,0,0,0,0,0,0),
-    FACIL(5,0,5,1,400,400,300,30,30,100, 1),
-    MEDIO(3,0,7,8,400,400,300,30,30,200,2),
-    DIFICIL(1,0,7,15,400,400,300,30,30,300,3);
+    SIN_INFORMAR(0,0,0f,0f,0f,0f,0,0,0,0,0f),
+    FACIL(5,0,5f,1f,400f,400f,300,30,30,100, 0.5f),
+    MEDIO(3,0,7f,1.3f,400f,400f,300,30,30,200,0.5f),
+    DIFICIL(1,0,7f,1.5f,400f,400f,300,30,30,300,0.5f);
 
     private final int vidaInicialJugador;
     private final int puntosInicialJugador;
-    private int velocidadDelJugador;
-    private int velocidadNavesEnemigas;
-    private final int posicionJugadorX;
-    private final int posicionJugadorY;
+    private final float velocidadDelJugador;
+    private float velocidadNavesEnemigas;
+    private final float posicionJugadorX;
+    private final float posicionJugadorY;
     private final int cooldownJugador;
     private final int anchoJugador;
     private final int altoJugador;
     private final int creditosParaIniciar;
-    private final int incrementoVelocidadNavesEnemigas;
+    private final float incrementoVelocidadNavesEnemigas;
 
-    Dificultad(int vidaInicialJugador, int puntosInicialJugador,int velocidadDelJugador, int velocidadNavesEnemigas,int posicionJugadorX, int posicionJugadorY,int cooldownDisparo,int anchoJugador,int altoJugador,int creditosParaIniciar, int incrementoVelocidadNavesEnemigas) {
+    Dificultad(int vidaInicialJugador, int puntosInicialJugador,float velocidadDelJugador, float velocidadNavesEnemigas,float posicionJugadorX, float posicionJugadorY,int cooldownDisparo,int anchoJugador,int altoJugador,int creditosParaIniciar, float incrementoVelocidadNavesEnemigas) {
         this.vidaInicialJugador = vidaInicialJugador;
         this.puntosInicialJugador = puntosInicialJugador;
         this.velocidadDelJugador = velocidadDelJugador;
@@ -40,17 +40,17 @@ public enum Dificultad {
         return puntosInicialJugador;
     }
 
-    public int getVelocidadDelJugador() {return velocidadDelJugador;}
+    public float getVelocidadDelJugador() {return velocidadDelJugador;}
 
-    public int getVelocidadNavesEnemigas() {
+    public float getVelocidadNavesEnemigas() {
         return velocidadNavesEnemigas;
     }
 
-    public int getPosicionJugadorX() {
+    public float getPosicionJugadorX() {
         return posicionJugadorX;
     }
 
-    public int getPosicionJugadorY() {
+    public float getPosicionJugadorY() {
         return posicionJugadorY;
     }
 
@@ -70,7 +70,7 @@ public enum Dificultad {
         return creditosParaIniciar;
     }
 
-    public int getIncrementoVelocidadNavesEnemigas() {
+    public float getIncrementoVelocidadNavesEnemigas() {
         return incrementoVelocidadNavesEnemigas;
     }
 }

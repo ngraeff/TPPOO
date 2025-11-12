@@ -171,7 +171,7 @@ public class Partida {
             oleada.actualizar(anchoPanel);
             // Verificar si las naves invasoras alcanzaron el límite crítico (perdiste)
             // GRASP: Information Expert - Partida es experta en información del juego
-            int limiteCriticoY = jugador.getPosicionY()-20;
+            float limiteCriticoY = jugador.getPosicionY() - 20f;
             for (NaveInvasora nave : oleada.getNavesVivas()) {
                 // Verificar si la nave alcanzó o pasó la altura del jugador
                 if (nave.getPosicionY() + nave.getAlto() >= limiteCriticoY) {
@@ -238,22 +238,23 @@ public class Partida {
      * Obtiene los datos del jugador para dibujar en la vista.
      * @return Lista con [posicionX, posicionY, ancho, alto]
      */
-    public List<Integer> getDatosJugadorADibujar() {
-        List<Integer> datosJugador = new ArrayList<>();
+    public float[] getDatosJugadorADibujar() {
         if (jugador != null) {
-            datosJugador.add(jugador.getPosicionX());
-            datosJugador.add(jugador.getPosicionY());
-            datosJugador.add(jugador.getAncho());
-            datosJugador.add(jugador.getAlto());
+            return new float[]{
+                    jugador.getPosicionX(),
+                    jugador.getPosicionY(),
+                    jugador.getAncho(),
+                    jugador.getAlto()
+            };
         }
-        return datosJugador;
+        return null;
     }
 
     /**
      * Obtiene los datos de los proyectiles para dibujar en la vista.
      * @return Lista de arrays con [posicionX, posicionY, ancho, alto]
      */
-    public List<int[]> getDatosProyectiles() {
+    public List<float[]> getDatosProyectiles() {
         if (jugador != null) {
             return jugador.getDatosProyectiles();
         }
@@ -264,22 +265,28 @@ public class Partida {
      * Obtiene los datos de las naves invasoras para dibujar en la vista.
      * @return Lista de arrays con [posicionX, posicionY]
      */
-    public List<int[]> getDatosNavesInvasoras() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosNavesInvasoras() {
+        List<float[]> datos = new ArrayList<>();
         if (oleada != null) {
             for (NaveInvasora nave : oleada.getNavesVivas()) {
-                datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
+                datos.add(new float[]{nave.getPosicionX(), nave.getPosicionY(), nave.getAncho(), nave.getAlto()});
             }
         }
         return datos;
     }
 
-    public List<int[]> getDatosMuro() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosMuro() {
+        List<float[]> datos = new ArrayList<>();
         if (muros != null) {
             for (MuroDeEnergia muro : muros) {
                 if(muro.getEstaVivo()){
-                    datos.add(new int[]{muro.getPosicionX(), muro.getPosicionY(), muro.getAncho(), muro.getAlto(),muro.getVida()});
+                    datos.add(new float[]{
+                            muro.getPosicionX(),
+                            muro.getPosicionY(),
+                            muro.getAncho(),
+                            muro.getAlto(),
+                            muro.getVida()
+                    });
                 }
             }
         }

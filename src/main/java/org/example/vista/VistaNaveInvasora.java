@@ -14,12 +14,12 @@ public class VistaNaveInvasora {
         imagenNave = new ImageIcon(getClass().getResource("/img/naveInvasora.png")).getImage();
     }
 
-    public void dibujar(Graphics2D g2d, List<int[]> datosNaves) {
+    public void dibujar(Graphics2D g2d, List<float[]> datosNaves) {
 
 
-        for (int[] datos : datosNaves) {
-            int x = datos[0];
-            int y = datos[1];
+        for (float[] datos : datosNaves) {
+            int x = Math.round(datos[0]);
+            int y = Math.round(datos[1]);
             g2d.drawImage(imagenNave,x, y, anchoNave, altoNave,null);
         }
     }

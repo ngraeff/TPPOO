@@ -259,7 +259,7 @@ public class ControladorJuego {
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos del jugador.
      */
-    public List<Integer> getDatosJugadorADibujar() {
+    public float[] getDatosJugadorADibujar() {
         return partida.getDatosJugadorADibujar();
     }
 
@@ -278,11 +278,11 @@ public class ControladorJuego {
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de los proyectiles.
      */
-    public List<int[]> getDatosProyectiles() {
+    public List<float[]> getDatosProyectiles() {
         return partida.getDatosProyectiles();
     }
 
-    public List<int[]> getDatosMuro() {
+    public List<float[]> getDatosMuro() {
         return partida.getDatosMuro();
     }
 
@@ -290,13 +290,13 @@ public class ControladorJuego {
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de las naves.
      */
-    public List<int[]> getDatosNavesInvasoras() {
+    public List<float[]> getDatosNavesInvasoras() {
         return partida.getDatosNavesInvasoras();
     }
 
 
-    public List<int[]> getDatosProyectilesEnemigos() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosProyectilesEnemigos() {
+        List<float[]> datos = new ArrayList<>();
 
         if (this.partida.getOleada() != null) {
             for (NaveInvasora nave : getNavesVivas()) {
