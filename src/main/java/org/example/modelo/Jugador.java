@@ -13,20 +13,18 @@ public class Jugador {
     private float posicionX;
     private float posicionY;
     private int cooldownDisparo;
-    private int  ancho;
-    private int alto;
+    private final int ancho = 30;
+    private final int alto = 30;
     private float velocidadDelJugador;
     private List<Proyectil> proyectiles;
     private long ultimoDisparo;
 
-    public Jugador(int vida, float posicionX, float posicionY, int cooldownDisparo, int altoJugador, int anchoJugador, float velocidadDelJugador) {
+    public Jugador(int vida, float posicionX, float posicionY, int cooldownDisparo, float velocidadDelJugador) {
         this.vida = vida;
         this.puntosJugador = 1000;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
-        this.alto = altoJugador;
-        this.ancho = anchoJugador;
         this.velocidadDelJugador = velocidadDelJugador;
         this.proyectiles = new ArrayList<>();
         this.ultimoDisparo = 0;

@@ -4,16 +4,14 @@ public class MuroDeEnergia {
     private int vida;
     private int posicionX;
     private int posicionY;
-    private int ancho;
-    private int alto;
+    private final int ancho = 60;
+    private final int alto = 60;
     private boolean estaVivo;
 
-    public MuroDeEnergia(int vida, int posicionX, int posicionY, int ancho, int alto) {
+    public MuroDeEnergia(int vida, int posicionX, int posicionY) {
         this.vida = vida;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
-        this.ancho = ancho;
-        this.alto = alto;
         this.estaVivo = true;
     }
     public int getVida() {
