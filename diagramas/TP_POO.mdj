@@ -663,7 +663,7 @@
 											"top": 1083,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+posicionY: int",
+											"text": "-posicionY: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -681,7 +681,7 @@
 											"top": 1098,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+cooldownDisparo: int",
+											"text": "-cooldownDisparo: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -699,7 +699,8 @@
 											"top": 1113,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+ancho: int",
+											"underline": true,
+											"text": "-ancho: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -717,7 +718,8 @@
 											"top": 1128,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+alto: int",
+											"underline": true,
+											"text": "-alto: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -735,7 +737,7 @@
 											"top": 1143,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+velocidadDelJugador: int",
+											"text": "-velocidadDelJugador: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -753,7 +755,7 @@
 											"top": 1158,
 											"width": 465.59765625,
 											"height": 13,
-											"text": "+ultimoDisparo: long",
+											"text": "-ultimoDisparo: long",
 											"horizontalAlignment": 0
 										}
 									],
@@ -1382,7 +1384,7 @@
 											"top": 606,
 											"width": 599.736328125,
 											"height": 13,
-											"text": "+nivel: Int",
+											"text": "-nivel: Int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1436,7 +1438,7 @@
 											"top": 651,
 											"width": 599.736328125,
 											"height": 13,
-											"text": "+dificultad: Dificultad",
+											"text": "-dificultad: Dificultad",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1876,7 +1878,8 @@
 											"top": 1053,
 											"width": 294.71875,
 											"height": 13,
-											"text": "+coolDown: int",
+											"underline": true,
+											"text": "-coolDown: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2301,7 +2304,8 @@
 											"top": 1554,
 											"width": 410.34130859375,
 											"height": 13,
-											"text": "+ancho: int",
+											"underline": true,
+											"text": "-ancho: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2319,7 +2323,8 @@
 											"top": 1569,
 											"width": 410.34130859375,
 											"height": 13,
-											"text": "+alto: int",
+											"underline": true,
+											"text": "-alto: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2690,7 +2695,7 @@
 											"top": 1523,
 											"width": 238.3515625,
 											"height": 13,
-											"text": "+estaActivo: bool",
+											"text": "-estaActivo: bool",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2708,7 +2713,7 @@
 											"top": 1538,
 											"width": 238.3515625,
 											"height": 13,
-											"text": "+velocidad: int",
+											"text": "-velocidad: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2726,7 +2731,8 @@
 											"top": 1553,
 											"width": 238.3515625,
 											"height": 13,
-											"text": "+ancho: int",
+											"underline": true,
+											"text": "-ancho: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2744,7 +2750,8 @@
 											"top": 1568,
 											"width": 238.3515625,
 											"height": 13,
-											"text": "+alto: int",
+											"underline": true,
+											"text": "-alto: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -3078,7 +3085,7 @@
 											"top": 1068,
 											"width": 201.5478515625,
 											"height": 13,
-											"text": "+posicionY: int",
+											"text": "-posicionY: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3096,7 +3103,8 @@
 											"top": 1083,
 											"width": 201.5478515625,
 											"height": 13,
-											"text": "+ancho: int",
+											"underline": true,
+											"text": "-ancho: int",
 											"horizontalAlignment": 0
 										},
 										{
@@ -3114,7 +3122,8 @@
 											"top": 1098,
 											"width": 201.5478515625,
 											"height": 13,
-											"text": "+alto: int",
+											"underline": true,
+											"text": "-alto: int",
 											"horizontalAlignment": 0
 										}
 									],
@@ -6193,6 +6202,7 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "posicionY",
+							"visibility": "private",
 							"type": "int"
 						},
 						{
@@ -6202,6 +6212,7 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "cooldownDisparo",
+							"visibility": "private",
 							"type": "int"
 						},
 						{
@@ -6211,6 +6222,8 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "ancho",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -6220,6 +6233,8 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "alto",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -6229,6 +6244,7 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "velocidadDelJugador",
+							"visibility": "private",
 							"type": "int"
 						},
 						{
@@ -6238,6 +6254,7 @@
 								"$ref": "AAAAAAGZnJ3Wj68jmBg="
 							},
 							"name": "ultimoDisparo",
+							"visibility": "private",
 							"type": "long"
 						}
 					],
@@ -6643,6 +6660,7 @@
 								"$ref": "AAAAAAGZnKYjIa/C+Nk="
 							},
 							"name": "nivel",
+							"visibility": "private",
 							"type": "Int"
 						},
 						{
@@ -6672,6 +6690,7 @@
 								"$ref": "AAAAAAGZnKYjIa/C+Nk="
 							},
 							"name": "dificultad",
+							"visibility": "private",
 							"type": "Dificultad"
 						},
 						{
@@ -6931,6 +6950,8 @@
 								"$ref": "AAAAAAGZnKh25LAK8cw="
 							},
 							"name": "coolDown",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -7147,6 +7168,8 @@
 								"$ref": "AAAAAAGZnKliGrA99+o="
 							},
 							"name": "ancho",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -7156,6 +7179,8 @@
 								"$ref": "AAAAAAGZnKliGrA99+o="
 							},
 							"name": "alto",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -7453,6 +7478,7 @@
 							}
 						}
 					],
+					"visibility": "private",
 					"attributes": [
 						{
 							"_type": "UMLAttribute",
@@ -7491,6 +7517,7 @@
 								"$ref": "AAAAAAGZnK4a87DGEvM="
 							},
 							"name": "estaActivo",
+							"visibility": "private",
 							"type": "bool"
 						},
 						{
@@ -7500,6 +7527,7 @@
 								"$ref": "AAAAAAGZnK4a87DGEvM="
 							},
 							"name": "velocidad",
+							"visibility": "private",
 							"type": "int"
 						},
 						{
@@ -7509,6 +7537,8 @@
 								"$ref": "AAAAAAGZnK4a87DGEvM="
 							},
 							"name": "ancho",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -7518,6 +7548,8 @@
 								"$ref": "AAAAAAGZnK4a87DGEvM="
 							},
 							"name": "alto",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						}
 					],
@@ -7697,6 +7729,7 @@
 								"$ref": "AAAAAAGZnK7HRbD+c9g="
 							},
 							"name": "posicionY",
+							"visibility": "private",
 							"type": "int"
 						},
 						{
@@ -7706,6 +7739,8 @@
 								"$ref": "AAAAAAGZnK7HRbD+c9g="
 							},
 							"name": "ancho",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						},
 						{
@@ -7715,6 +7750,8 @@
 								"$ref": "AAAAAAGZnK7HRbD+c9g="
 							},
 							"name": "alto",
+							"visibility": "private",
+							"isStatic": true,
 							"type": "int"
 						}
 					],

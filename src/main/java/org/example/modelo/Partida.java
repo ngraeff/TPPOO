@@ -108,8 +108,6 @@ public class Partida {
                 dificultad.getPosicionJugadorX(),
                 dificultad.getPosicionJugadorY(),
                 dificultad.getCooldownJugador(),
-                dificultad.getAltoJugador(),
-                dificultad.getAnchoJugador(),
                 dificultad.getVelocidadDelJugador()
         );
     }
@@ -293,7 +291,7 @@ public class Partida {
             for (int col = 0; col < 10; col++) {
                 int x = 5 + col * 100;
                 int y = 300 + fila * 40;
-                MuroDeEnergia muro = new MuroDeEnergia(2, x, y, 60, 60);
+                MuroDeEnergia muro = new MuroDeEnergia(2, x, y);
                 muros.add(muro);
             }
         }
