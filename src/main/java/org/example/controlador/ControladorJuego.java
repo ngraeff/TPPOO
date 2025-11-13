@@ -3,8 +3,7 @@ package org.example.controlador;
 import org.example.enums.*;
 import org.example.modelo.*;
 
-import javax.swing.*;
-import java.awt.event.KeyEvent;
+//
 import java.util.List;
 import java.util.ArrayList;
 
@@ -13,9 +12,9 @@ public class ControladorJuego {
     private Ranking ranking;
 
     // flags de teclas
-    private boolean moviendoseIzquierda = false;
-    private boolean moviendoseDerecha = false;
-    private boolean disparoPresionado = false;
+    public boolean moviendoseIzquierda = false;
+    public boolean moviendoseDerecha = false;
+    public boolean disparoPresionado = false;
 
     public ControladorJuego() {
         this.ranking = new Ranking();
@@ -128,41 +127,7 @@ public class ControladorJuego {
     // FUNCIONES DE TECLAS Y MOVIMIENTO EN PANTALLA
     //========================================================================
 
-    /***
-     * Setea flag de cual tecla se está presionando.
-     * @param codigoTecla codigo de la tecla presionada.
-     */
-    public void teclaPresionada(int codigoTecla) {
-        switch (codigoTecla) {
-            case KeyEvent.VK_LEFT:
-                moviendoseIzquierda = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                moviendoseDerecha = true;
-                break;
-            case KeyEvent.VK_SPACE:
-                disparoPresionado = true;
-                break;
-        }
-    }
 
-    /***
-     * Apaga el flag segun que tecla este soltada.
-     * @param codigoTecla tecla soltada.
-     */
-    public void teclaSoltada(int codigoTecla) {
-        switch (codigoTecla) {
-            case KeyEvent.VK_LEFT:
-                moviendoseIzquierda = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                moviendoseDerecha = false;
-                break;
-            case KeyEvent.VK_SPACE:
-                disparoPresionado = false;
-                break;
-        }
-    }
 
     /***
      * Actualiza la ventana de juego.
@@ -287,5 +252,25 @@ public class ControladorJuego {
 
     public boolean tieneJugador(){
         return partida.getJugador() != null;
+    }
+
+    // ============ SETERS MOVIMIENTO ==================
+    public void moviendoseIzquierdaTrue(){
+        this.moviendoseIzquierda = true;
+    }
+    public void moviendoseIzquierdaFalse(){
+        this.moviendoseIzquierda = false;
+    }
+    public void moviendoseDerechaTrue(){
+        this.moviendoseDerecha = true;
+    }
+    public void moviendoseDerechaFalse(){
+        this.moviendoseDerecha = false;
+    }
+    public void disparandoTrue(){
+        this.disparoPresionado = true;
+    }
+    public void disparandoFalse(){
+        this.disparoPresionado = false;
     }
 }

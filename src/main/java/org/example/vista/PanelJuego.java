@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+
 public class PanelJuego extends JPanel {
 
 
@@ -75,12 +76,12 @@ public class PanelJuego extends JPanel {
         canvasJuego.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                controlador.teclaPresionada(e.getKeyCode());
+                teclaPresionada(e.getKeyCode());
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                controlador.teclaSoltada(e.getKeyCode());
+                teclaSoltada(e.getKeyCode());
             }
         });
 
@@ -226,6 +227,42 @@ public class PanelJuego extends JPanel {
     public void reanudarJuego() {
         if (timer != null) timer.start();
         reanudarJuegoVista();
+    }
+
+    /***
+     * Setea flag de cual tecla se está presionando.
+     * @param codigoTecla codigo de la tecla presionada.
+     */
+    public void teclaPresionada(int codigoTecla) {
+        switch (codigoTecla) {
+            case KeyEvent.VK_LEFT:
+                controlador.moviendoseIzquierdaTrue();
+                break;
+            case KeyEvent.VK_RIGHT:
+                controlador.moviendoseDerechaTrue();
+                break;
+            case KeyEvent.VK_SPACE:
+                controlador.disparandoTrue();
+                break;
+        }
+    }
+
+    /***
+     * Apaga el flag segun que tecla este soltada.
+     * @param codigoTecla tecla soltada.
+     */
+    public void teclaSoltada(int codigoTecla) {
+        switch (codigoTecla) {
+            case KeyEvent.VK_LEFT:
+                controlador.moviendoseIzquierdaFalse();
+                break;
+            case KeyEvent.VK_RIGHT:
+                controlador.moviendoseDerechaFalse();
+                break;
+            case KeyEvent.VK_SPACE:
+                controlador.disparandoFalse();
+                break;
+        }
     }
 
 
