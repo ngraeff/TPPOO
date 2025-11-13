@@ -57,9 +57,6 @@ public class Partida {
         return jugador.getPuntos();
     }
 
-    public String getNombreJugador() {
-        return nombreJugador;
-    }
 
     public int getCreditosJugador() {
         return creditosJugador;
@@ -189,6 +186,7 @@ public class Partida {
 
     public void avanzarNivel() {
         this.nivel++;
+        jugador.sumarPuntajeNivel();
         this.oleada = Oleada.crearOleadaBasica(dificultad, nivel);
         crearMuroDeEnergia();
     }

@@ -1,6 +1,7 @@
 package org.example.vista;
 
 import org.example.controlador.ControladorJuego;
+import org.example.enums.EstadoDeJuego;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,6 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 public class PanelJuego extends JPanel {
+
 
     private final ControladorJuego controlador;
     private final VistaJugador vistaJugador;
@@ -24,6 +26,9 @@ public class PanelJuego extends JPanel {
     private final JButton btnReanudar;
     private final JButton btnTerminar;
 
+    private final int ancho = 800;
+    private Timer timer;
+
     public PanelJuego(ControladorJuego controlador, VentanaPrincipal ventanaPrincipal) {
         this.controlador = controlador;
         this.vistaJugador = new VistaJugador();
@@ -31,6 +36,7 @@ public class PanelJuego extends JPanel {
         this.vistaProyectil = new VistaProyectil();
         this.ventanaPrincipal = ventanaPrincipal;
         this.vistaMuro = new VistaMuro();
+        this.timer = null;
 
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -63,6 +69,7 @@ public class PanelJuego extends JPanel {
         };
         canvasJuego.setBackground(Color.BLACK);
         canvasJuego.setPreferredSize(new Dimension(800, 600));
+        iniciarTimer();
 
         // Eventos de teclado
         canvasJuego.addKeyListener(new KeyAdapter() {
@@ -111,19 +118,65 @@ public class PanelJuego extends JPanel {
         btnTerminar.setFocusable(false);
     }
 
-    private void pausarJuego() {
-        controlador.pausarJuego();
+    private void pausarJuegoVista() {
         btnPausar.setVisible(false);
         btnReanudar.setVisible(true);
     }
 
     public void terminarJuego(){
-        controlador.terminarJuego();
+        if (timer != null) timer.stop();
+        switch (controlador.getEstadoDeJuego()) {
+            case GAME_OVER_VIDA -> ventanaPrincipal.mostrarMensaje(
+                    "¡Te has quedado sin vidas! \nEl juego ha terminado\nPuntaje: " + controlador.getPuntosJugador(),
+                    "GAME OVER"
+            );
+            case GAME_OVER_LIMITE -> ventanaPrincipal.mostrarMensaje(
+                    "¡Las naves invasoras han alcanzado tu posición!\n\n" +
+                            "Puntuación final: " + controlador.getPuntosJugador() + "\n" +
+                            "Vidas restantes: " + controlador.getVidasJugador(),
+                    "GAME OVER"
+            );
+            default -> ventanaPrincipal.mostrarMensaje(
+                    "Finalizó la partida\n\n" +
+                            "Puntuación final: " + controlador.getPuntosJugador(),
+                    "Partida Terminada"
+            );
+        }
+
+        String  nombre = JOptionPane.showInputDialog(
+                null,
+                "Ingrese su nombre para el ranking:",
+                "Guardar Puntaje",
+                JOptionPane.PLAIN_MESSAGE
+        );
+        int contador = 1;
+        while ((nombre == null || nombre.trim().isEmpty()) && contador < 3){
+            contador++;
+            nombre = JOptionPane.showInputDialog(
+                    null,
+                    "Por favor, ingrese su nombre para el ranking:",
+                    "Guardar Puntaje",
+                    JOptionPane.PLAIN_MESSAGE
+            );}
+
+        while (nombre == null || nombre.trim().isEmpty()){
+            contador++;
+            nombre = JOptionPane.showInputDialog(
+                    null,
+                    "Dale loko, ayudame. Ingresa tu nombre para el ranking :) :",
+                    "Guardar Puntaje",
+                    JOptionPane.PLAIN_MESSAGE
+            );}
+
+        ventanaPrincipal.mostrarMensaje("Puntaje guardado exitosamente.", "Ranking");
+
+        ventanaPrincipal.mostrarMensaje("Se devolvieron " + controlador.getCreditosJugador() +" creditos.","Devolucion de Creditos");
+        controlador.terminarJuego(nombre);
         ventanaPrincipal.mostrarMenuPrincipal();
     }
 
-    private void reanudarJuego() {
-        controlador.reanudarJuego();
+    private void reanudarJuegoVista() {
+
         btnReanudar.setVisible(false);
         btnPausar.setVisible(true);
         enfocarCanvas(); // para que las teclas vuelvan a funcionar
@@ -140,4 +193,41 @@ public class PanelJuego extends JPanel {
     public void actualizarInfo(int puntos, int vidas, int nivel) {
         lblInfoJuego.setText("Puntuación: " + puntos + " | Vidas: " + vidas + " | Nivel: " + nivel);
     }
+
+    private void iniciarTimer() {
+        if (timer != null && timer.isRunning()) timer.stop();
+
+        timer = new Timer(16, e -> {
+            controlador.actualizarJuego(ancho);
+            actualizarSiTermino();
+            if (controlador.tieneJugador()){
+                actualizarInfo(controlador.getPuntosJugador(),controlador.getVidasJugador(),controlador.getNivelPartida());
+            }else{
+                actualizarInfo(0,0,0);
+            }
+        repaintCanvas();
+
+        });
+        timer.start();
+    }
+
+
+    public void actualizarSiTermino() {
+        //Verifica si partida esta en GAMEOVER
+        if (controlador.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_LIMITE || controlador.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_VIDA) {
+            terminarJuego();
+        }
+    }
+    public void pausarJuego() {
+        if (timer != null) timer.stop();
+        pausarJuegoVista();
+    }
+
+    public void reanudarJuego() {
+        if (timer != null) timer.start();
+        reanudarJuegoVista();
+    }
+
+
+
 }

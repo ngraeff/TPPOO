@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Levanto controlador
-        ControladorJuego controladorJuego = new ControladorJuego();
+        //ControladorJuego controladorJuego = new ControladorJuego();
 
 
          // Inicio interfaz grafica
@@ -22,8 +22,7 @@ public class Main {
                          System.err.println("No se pudo configurar el look and feel: " + e.getMessage());
                      }
                      // Crear y mostrar la ventana principal
-                     VentanaPrincipal ventana = new VentanaPrincipal(controladorJuego);
-                     controladorJuego.setVista(ventana);
+                     VentanaPrincipal ventana = new VentanaPrincipal();
                      ventana.setVisible(true);
 
 

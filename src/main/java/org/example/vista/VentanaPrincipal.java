@@ -33,8 +33,8 @@ public class VentanaPrincipal extends JFrame {
  
 
     // CONSTRUCTOR
-    public VentanaPrincipal(ControladorJuego controlador) {
-        this.controlador = controlador;
+    public VentanaPrincipal() {
+        this.controlador = new ControladorJuego();
         inicializarComponentes(); // Creacion de los componentes (parte interna)
         configurarVentana();  // Configuracion de la ventana (parte externa)
         //controlador.configurarPanelJuego();
@@ -122,15 +122,27 @@ public class VentanaPrincipal extends JFrame {
      */
     private void crearPanelJuego() {
         panelJuego = new PanelJuego(controlador,this);
-        controlador.setPanelJuego(panelJuego);
     }
 
     /***
      * Muestra el panel donde se realiza el juego.
      */
     private void mostrarPanelJuego() {
-        boolean juegoIniciado = controlador.iniciarJuego();
 
+        boolean dificultad = controlador.revisarDificultad();
+
+        if (!dificultad) {
+            mostrarMensaje("Seleccione una dificultad antes de comenzar el juego.", "Error de configuración");
+            return;
+        }
+
+        boolean creditos =controlador.revisarCreditos();
+        if (!creditos){
+            mostrarMensaje("Por favor, cargue mas creditos para jugar con la dificultad seleccionada.\nUsted tiene " + controlador.obtenerCreditosJugador() + " creditos. Necesita " + controlador.obtenerCreditosNecesarios() + " creditos para iniciar.", "Creditos Insuficientes");
+            return;
+        }
+
+        boolean juegoIniciado = controlador.iniciarJuego();
         if (!juegoIniciado) return;
 
         crearPanelJuego();
@@ -255,6 +267,7 @@ public class VentanaPrincipal extends JFrame {
         CardLayout layout = (CardLayout) panelPrincipal.getLayout();
         layout.show(panelPrincipal, "RANKING");
     }
+
 
 
 

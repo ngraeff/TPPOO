@@ -2,8 +2,6 @@ package org.example.controlador;
 
 import org.example.enums.*;
 import org.example.modelo.*;
-import org.example.vista.VentanaPrincipal;
-import org.example.vista.PanelJuego;
 
 import javax.swing.*;
 import java.awt.event.KeyEvent;
@@ -11,24 +9,17 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class ControladorJuego {
-    private VentanaPrincipal vista;
     private Partida partida;
     private Ranking ranking;
-    private Timer timer;
-    private PanelJuego panelJuego;
-
 
     // flags de teclas
     private boolean moviendoseIzquierda = false;
     private boolean moviendoseDerecha = false;
     private boolean disparoPresionado = false;
-    
-
 
     public ControladorJuego() {
         this.ranking = new Ranking();
         this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL);
-        this.vista = null;
     }
 
     //========================================================================
@@ -58,15 +49,7 @@ public class ControladorJuego {
      */
     public boolean iniciarJuego(){
 
-        //valida condiciones necesarias para crear el juego
-        if (!this.partida.chequearDificultad()){
-            vista.mostrarMensaje("Seleccione una dificultad antes de comenzar el juego.", "Error de configuración");
-            return false;
-        }
-        if (!this.partida.chequearCreditos()) {
-            vista.mostrarMensaje("Por favor, cargue mas creditos para jugar con la dificultad seleccionada.\nUsted tiene " + partida.getCreditosJugador() + " creditos. Necesita " + this.partida.getDificultad().getCreditosParaIniciar() + " creditos para iniciar.", "Creditos Insuficientes");
-            return false;
-        }
+
         //Una vez ya validado, crea al jugador y a la primera oleada.
         this.partida.setEstadoDeJuego(EstadoDeJuego.EN_CURSO);
         this.partida.restarCreditos();
@@ -75,10 +58,20 @@ public class ControladorJuego {
         partida.crearMuroDeEnergia();
 
         // Resetear el flag de game over cuando se inicia una nueva partida
-        iniciarTimer();
         return true;
 
     }
+
+    public boolean revisarDificultad(){
+        //valida condiciones necesarias para crear el juego
+        return this.partida.chequearDificultad();
+    }
+
+    public boolean revisarCreditos(){
+        return this.partida.chequearCreditos();
+    }
+
+
 
     //========================================================================
     // FUNCIONES DE FIN JUEGO
@@ -101,91 +94,29 @@ public class ControladorJuego {
     // TIMER DEL JUEGO
     //========================================================================
 
-    private void iniciarTimer() {
-        if (timer != null && timer.isRunning()) timer.stop();
-
-        timer = new Timer(16, e -> {
-            if (panelJuego != null) {
-                actualizarJuego(panelJuego.getWidth());
-                panelJuego.repaintCanvas();
-            }
-        });
-        timer.start();
+    public EstadoDeJuego getEstadoDeJuego(){
+        return partida.getEstadoDeJuego();
     }
 
-    public void pausarJuego() {
-        if (timer != null) timer.stop();
+    public int getPuntosJugador(){
+        return partida.getPuntosJugador();
+    }
+    public int getVidasJugador(){
+        return partida.getVidaJugador();
     }
 
-    public void reanudarJuego() {
-        if (timer != null) timer.start();
-    }
+    public void terminarJuego(String nombre) {
 
-    public void terminarJuego() {
-        if (timer != null) timer.stop();
+        int contador = 1;
 
-        if (vista != null) {
-
-            switch (partida.getEstadoDeJuego()) {
-                case GAME_OVER_VIDA -> vista.mostrarMensaje(
-                        "¡Te has quedado sin vidas! \nEl juego ha terminado\nPuntaje: " + partida.getPuntosJugador(),
-                        "GAME OVER"
-                );
-                case GAME_OVER_LIMITE -> vista.mostrarMensaje(
-                        "¡Las naves invasoras han alcanzado tu posición!\n\n" +
-                                "Puntuación final: " + partida.getPuntosJugador() + "\n" +
-                                "Vidas restantes: " + partida.getVidaJugador(),
-                        "GAME OVER"
-                );
-                default -> vista.mostrarMensaje(
-                        "Finalizó la partida\n\n" +
-                                "Puntuación final: " + partida.getPuntosJugador(),
-                        "Partida Terminada"
-                );
-            }
-
-            int contador = 1;
-            String  nombre = JOptionPane.showInputDialog(
-                    null,
-                    "Ingrese su nombre para el ranking:",
-                    "Guardar Puntaje",
-                    JOptionPane.PLAIN_MESSAGE
-            );
-
-            while ((nombre == null || nombre.trim().isEmpty()) && contador < 3){
-                contador++;
-                nombre = JOptionPane.showInputDialog(
-                        null,
-                        "Por favor, ingrese su nombre para el ranking:",
-                        "Guardar Puntaje",
-                        JOptionPane.PLAIN_MESSAGE
-                );}
-
-            while (nombre == null || nombre.trim().isEmpty()){
-                contador++;
-                nombre = JOptionPane.showInputDialog(
-                        null,
-                        "Dale loko, ayudame. Ingresa tu nombre para el ranking :) :",
-                        "Guardar Puntaje",
-                        JOptionPane.PLAIN_MESSAGE
-                );}
-            partida.setNombreJugador(nombre.trim());
-            agregarPartidaAlRanking(nombre.trim(), partida.getPuntosJugador());
-            vista.mostrarMensaje("Puntaje guardado exitosamente.", "Ranking");
-
-
-        }
+        partida.setNombreJugador(nombre.trim());
+        agregarPartidaAlRanking(nombre.trim(), partida.getPuntosJugador());
         partida.setEstadoDeJuego(EstadoDeJuego.MENU_PRINCIPAL);
         reiniciarJuego();
-        // Volver al menú principal si hay vista
-        if (vista != null) {
-            vista.mostrarMenuPrincipal();
-        }
-
     }
 
     public void reiniciarJuego() {
-        vista.mostrarMensaje("Se devolvieron " + getCreditosJugador() +" creditos.","Devolucion de Creditos");
+
         partida.reiniciar();
         moviendoseIzquierda = false;
         moviendoseDerecha = false;
@@ -242,13 +173,7 @@ public class ControladorJuego {
         if (partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER_LIMITE && partida.getEstadoDeJuego() != EstadoDeJuego.GAME_OVER_VIDA) {
             partida.actualizarEstado(anchoPanel, moviendoseIzquierda, moviendoseDerecha, disparoPresionado);
         }
-        if (panelJuego != null) {
-            panelJuego.actualizarInfo(partida.getPuntosJugador(),partida.getVidaJugador(), partida.getNivel());
-        }
-        //Verifica si partida esta en GAMEOVER
-        if (partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_LIMITE || partida.getEstadoDeJuego() == EstadoDeJuego.GAME_OVER_VIDA) {
-            terminarJuego();
-        }
+
     }
 
     //========================================================================
@@ -263,17 +188,9 @@ public class ControladorJuego {
         return partida.getDatosJugadorADibujar();
     }
 
-    /***
-     * Setea la Vista principal
-     * @param vista Menu principal del juego.
-     */
-    public void setVista(VentanaPrincipal vista) {
-        this.vista = vista;
-    }
 
-    public void setPanelJuego(PanelJuego panelJuego) {
-        this.panelJuego = panelJuego;
-    }
+
+
     /***
      * Envia los datos necesarios para dibujar a la vista.
      * @return Datos de los proyectiles.
@@ -360,4 +277,15 @@ public class ControladorJuego {
         return this.partida.getPuntosJugador();
     }
 
+    public int obtenerCreditosJugador(){
+        return partida.getCreditosJugador();
+    }
+
+    public int obtenerCreditosNecesarios(){
+        return this.partida.getDificultad().getCreditosParaIniciar();
+    }
+
+    public boolean tieneJugador(){
+        return partida.getJugador() != null;
+    }
 }

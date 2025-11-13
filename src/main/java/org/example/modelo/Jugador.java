@@ -159,6 +159,9 @@ public class Jugador {
     public void sumarPuntaje(){
         this.puntosJugador += 5;
     }
+    public void sumarPuntajeNivel(){
+        this.puntosJugador += 500;
+    }
     public int getPuntos(){
         return puntosJugador;
     }
