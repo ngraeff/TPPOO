@@ -131,7 +131,7 @@ public class Proyectil {
         float nw = muro.getAncho();
         float nh = muro.getAlto();
         if (proyectil == TipoProyectil.ENEMIGO){
-            if(px + pw >= nx && px <= nx + nw && py + ph -30 >= ny && py <= ny + nh){
+            if(px + pw >= nx && px <= nx + nw && py + ph  >= ny && py <= ny + nh){
                 return true;
             }
         }else{

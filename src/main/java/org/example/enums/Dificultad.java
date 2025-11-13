@@ -3,8 +3,8 @@ package org.example.enums;
 public enum Dificultad {
     SIN_INFORMAR(0,0,0f,0f,0f,0f,0,0,0,0,0f),
     FACIL(5,0,5f,1f,400f,400f,300,30,30,100, 0.5f),
-    MEDIO(3,0,7f,1.3f,400f,400f,300,30,30,200,0.5f),
-    DIFICIL(1,0,7f,1.5f,400f,400f,300,30,30,300,0.5f);
+    MEDIO(3,0,7f,2f,400f,400f,300,30,30,200,0.5f),
+    DIFICIL(1,0,7f,3f,400f,400f,300,30,30,300,0.5f);
 
     private final int vidaInicialJugador;
     private final int puntosInicialJugador;

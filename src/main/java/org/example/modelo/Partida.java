@@ -157,7 +157,7 @@ public class Partida {
         // Actualizar oleada
         if (oleada != null) {
             oleada.actualizar(anchoPanel);
-            float limiteCriticoY = jugador.getPosicionY() - 20f;
+            float limiteCriticoY = jugador.getPosicionY() - 30f;
             for (NaveInvasora nave : oleada.getNavesVivas()) {
                 // Verificar si la nave alcanzó o pasó la altura del jugador
                 if (nave.getPosicionY() + nave.getAlto() >= limiteCriticoY) {
@@ -283,8 +283,8 @@ public class Partida {
         // Crear 5 filas x 8 columnas de invasores
         for (int fila = 1; fila < 2; fila++) {
             for (int col = 0; col < 10; col++) {
-                int x = 5 + col * 100;
-                int y = 300 + fila * 40;
+                int x = 20 + col * 100;
+                int y = 320 + fila * 40;
                 MuroDeEnergia muro = new MuroDeEnergia(2, x, y);
                 muros.add(muro);
             }
