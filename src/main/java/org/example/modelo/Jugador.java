@@ -19,9 +19,9 @@ public class Jugador {
     private List<Proyectil> proyectiles;
     private long ultimoDisparo;
 
-    public Jugador(int vida, float posicionX, float posicionY, int cooldownDisparo, float velocidadDelJugador) {
+    public Jugador(int vida, float posicionX, float posicionY, int cooldownDisparo, float velocidadDelJugador, int puntosJugador) {
         this.vida = vida;
-        this.puntosJugador = 1000;
+        this.puntosJugador = puntosJugador;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;

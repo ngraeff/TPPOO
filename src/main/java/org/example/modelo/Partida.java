@@ -9,7 +9,6 @@ import java.util.List;
 public class Partida {
     private String nombreJugador;
     private int creditosJugador;
-    private int estadoJugador;
     private EstadoDeJuego estadoDeJuego;
     private Dificultad dificultad;
     private Jugador jugador;
@@ -17,16 +16,13 @@ public class Partida {
     private int nivel;
     private List<MuroDeEnergia> muros;
 
-    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador) {
+    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego) {
         this.dificultad = dificultad;
         this.estadoDeJuego = estadoDeJuego;
-        this.estadoJugador = estadoJugador;
-        this.creditosJugador = 500;
+        this.creditosJugador = 0;
         this.nombreJugador = null;
         this.nivel = 1;
     }
-
-
 
     public void setNombreJugador(String nombreJugador) {
         this.nombreJugador = nombreJugador;
@@ -36,9 +32,6 @@ public class Partida {
         this.creditosJugador += creditosJugador;
     }
 
-    public void setEstadoJugador(int estadoJugador) {
-        this.estadoJugador = estadoJugador;
-    }
 
     public void setDificultad(Dificultad dificultad) {
         this.dificultad = dificultad;
@@ -70,10 +63,6 @@ public class Partida {
 
     public int getCreditosJugador() {
         return creditosJugador;
-    }
-
-    public int getEstadoJugador() {
-        return estadoJugador;
     }
 
     public EstadoDeJuego getEstadoDeJuego() {
@@ -108,7 +97,8 @@ public class Partida {
                 dificultad.getPosicionJugadorX(),
                 dificultad.getPosicionJugadorY(),
                 dificultad.getCooldownJugador(),
-                dificultad.getVelocidadDelJugador()
+                dificultad.getVelocidadDelJugador(),
+                dificultad.getPuntosInicialJugador()
         );
     }
 
@@ -195,7 +185,6 @@ public class Partida {
         this.nombreJugador = null;
         this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
         this.dificultad = Dificultad.SIN_INFORMAR;
-        this.estadoJugador = 0;
         this.creditosJugador = 0;
         this.nivel= 1;
     }

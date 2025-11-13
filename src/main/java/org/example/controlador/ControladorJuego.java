@@ -27,7 +27,7 @@ public class ControladorJuego {
 
     public ControladorJuego() {
         this.ranking = new Ranking();
-        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL,0);
+        this.partida = new Partida(Dificultad.SIN_INFORMAR,EstadoDeJuego.MENU_PRINCIPAL);
         this.vista = null;
     }
 
