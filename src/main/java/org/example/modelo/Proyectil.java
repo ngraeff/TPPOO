@@ -4,15 +4,15 @@ import org.example.enums.TipoProyectil;
 
 public class Proyectil {
 
-    private int posicionX;
-    private int posicionY;
+    private float posicionX;
+    private float posicionY;
     private TipoProyectil proyectil;
     private boolean estaActivo;
-    private int velocidad;
+    private float velocidad;
     private final int ancho =3;
     private final int alto = 8;
 
-    public Proyectil(int posicionX, int posicionY, TipoProyectil proyectil, boolean estaActivo, int velocidad) {
+    public Proyectil(float posicionX, float posicionY, TipoProyectil proyectil, boolean estaActivo, float velocidad) {
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.proyectil = proyectil;
@@ -20,19 +20,19 @@ public class Proyectil {
         this.velocidad = velocidad;
     }
 
-    public int getPosicionX() {
+    public float getPosicionX() {
         return posicionX;
     }
 
-    public void setPosicionX(int posicionX) {
+    public void setPosicionX(float posicionX) {
         this.posicionX = posicionX;
     }
 
-    public int getPosicionY() {
+    public float getPosicionY() {
         return posicionY;
     }
 
-    public void setPosicionY(int posicionY) {
+    public void setPosicionY(float posicionY) {
         this.posicionY = posicionY;
     }
 
@@ -48,11 +48,11 @@ public class Proyectil {
         this.estaActivo = estaActivo;
     }
 
-    public int getVelocidad() {
+    public float getVelocidad() {
         return velocidad;
     }
 
-    public void setVelocidad(int velocidad) {
+    public void setVelocidad(float velocidad) {
         this.velocidad = velocidad;
     }
 
@@ -82,15 +82,15 @@ public class Proyectil {
     }
 
     public boolean detectaColision(NaveInvasora nave){
-        int px = this.getPosicionX();
-        int py = this.getPosicionY();
-        int pw = this.getAncho();
-        int ph = this.getAlto();
+        float px = this.getPosicionX();
+        float py = this.getPosicionY();
+        float pw = this.getAncho();
+        float ph = this.getAlto();
 
-        int nx = nave.getPosicionX();
-        int ny = nave.getPosicionY();
-        int nw = nave.getAncho();
-        int nh = nave.getAlto();
+        float nx = nave.getPosicionX();
+        float ny = nave.getPosicionY();
+        float nw = nave.getAncho();
+        float nh = nave.getAlto();
 
     if((px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh) && this.proyectil == TipoProyectil.ALIADO){
             return true;
@@ -102,15 +102,15 @@ public class Proyectil {
 
     public boolean detectaColision(Jugador jugador){
 
-        int px = this.getPosicionX();
-        int py = this.getPosicionY();
-        int pw = this.getAncho();
-        int ph = this.getAlto();
+        float px = this.getPosicionX();
+        float py = this.getPosicionY();
+        float pw = this.getAncho();
+        float ph = this.getAlto();
 
-        int nx = jugador.getPosicionX();
-        int ny = jugador.getPosicionY();
-        int nw = jugador.getAncho();
-        int nh = jugador.getAlto();
+        float nx = jugador.getPosicionX();
+        float ny = jugador.getPosicionY();
+        float nw = jugador.getAncho();
+        float nh = jugador.getAlto();
 
         if((px + pw >= nx && px <= nx + nw && py + ph >= ny && py <= ny + nh) && this.proyectil == TipoProyectil.ENEMIGO ){
             return true;
@@ -121,17 +121,17 @@ public class Proyectil {
     }
 
     public boolean detectaColision(MuroDeEnergia muro){
-        int px = this.getPosicionX();
-        int py = this.getPosicionY();
-        int pw = this.getAncho();
-        int ph = this.getAlto();
+        float px = this.getPosicionX();
+        float py = this.getPosicionY();
+        float pw = this.getAncho();
+        float ph = this.getAlto();
 
-        int nx = muro.getPosicionX();
-        int ny = muro.getPosicionY();
-        int nw = muro.getAncho();
-        int nh = muro.getAlto();
+        float nx = muro.getPosicionX();
+        float ny = muro.getPosicionY();
+        float nw = muro.getAncho();
+        float nh = muro.getAlto();
         if (proyectil == TipoProyectil.ENEMIGO){
-            if(px + pw >= nx && px <= nx + nw && py + ph -30 >= ny && py <= ny + nh){
+            if(px + pw >= nx && px <= nx + nw && py + ph  >= ny && py <= ny + nh){
                 return true;
             }
         }else{

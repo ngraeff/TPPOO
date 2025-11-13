@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NaveInvasora {
-    private int posicionX;
-    private int posicionY;
-    private int velocidadDeMovimiento;
+    private float posicionX;
+    private float posicionY;
+    private float velocidadDeMovimiento;
     private boolean estaViva;
     public final int ancho = 30;
     public final int alto = 20;
     private List<Proyectil> proyectiles;
 
 
-    public NaveInvasora(int posicionX, int posicionY, int velocidadDeMovimiento, boolean estaViva) {
+    public NaveInvasora(float posicionX, float posicionY, float velocidadDeMovimiento, boolean estaViva) {
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.velocidadDeMovimiento = velocidadDeMovimiento;
@@ -40,14 +40,14 @@ public class NaveInvasora {
     }
 
     public void disparar() {
-        int xCentro = this.posicionX + (this.ancho / 2);
-        int yInicio = this.posicionY;
+        float xCentro = this.posicionX + (this.ancho / 2.0f);
+        float yInicio = this.posicionY;
         Proyectil nuevo = new Proyectil(
                 xCentro,
                 yInicio,
                 TipoProyectil.ENEMIGO,
                 true,
-                8
+                8f
         );
         proyectiles.add(nuevo);
     }
@@ -92,23 +92,23 @@ public class NaveInvasora {
         proyectiles = activos;
     }
 
-    public List<int[]> getDatosProyectiles() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosProyectiles() {
+        List<float[]> datos = new ArrayList<>();
         for (Proyectil p : proyectiles) {
             if (p.isEstaActivo()) {
-                datos.add(new int[]{p.getPosicionX(), p.getPosicionY(), p.getAncho(), p.getAlto()});
+                datos.add(new float[]{p.getPosicionX(), p.getPosicionY(), p.getAncho(), p.getAlto()});
             }
         }
         return datos;
     }
 
     // Getters para la vista
-    public int getPosicionX() { return posicionX; }
-    public int getPosicionY() { return posicionY; }
+    public float getPosicionX() { return posicionX; }
+    public float getPosicionY() { return posicionY; }
     public boolean isEstaViva() { return estaViva; }
     public void setEstaViva(boolean viva) { this.estaViva = viva; }
     public int getAncho() { return ancho; }
     public int getAlto() { return alto; }
-    public void setPosicionX(int posicionX) { this.posicionX = posicionX; }
-    public void setVelocidadDeMovimiento(int velocidadDeMovimiento) { this.velocidadDeMovimiento = velocidadDeMovimiento; }
+    public void setPosicionX(float posicionX) { this.posicionX = posicionX; }
+    public void setVelocidadDeMovimiento(float velocidadDeMovimiento) { this.velocidadDeMovimiento = velocidadDeMovimiento; }
 }

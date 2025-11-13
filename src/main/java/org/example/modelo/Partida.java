@@ -9,7 +9,6 @@ import java.util.List;
 public class Partida {
     private String nombreJugador;
     private int creditosJugador;
-    private int estadoJugador;
     private EstadoDeJuego estadoDeJuego;
     private Dificultad dificultad;
     private Jugador jugador;
@@ -17,16 +16,13 @@ public class Partida {
     private int nivel;
     private List<MuroDeEnergia> muros;
 
-    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego, int estadoJugador) {
+    public Partida(Dificultad dificultad, EstadoDeJuego estadoDeJuego) {
         this.dificultad = dificultad;
         this.estadoDeJuego = estadoDeJuego;
-        this.estadoJugador = estadoJugador;
-        this.creditosJugador = 500;
+        this.creditosJugador = 0;
         this.nombreJugador = null;
         this.nivel = 1;
     }
-
-
 
     public void setNombreJugador(String nombreJugador) {
         this.nombreJugador = nombreJugador;
@@ -36,9 +32,6 @@ public class Partida {
         this.creditosJugador += creditosJugador;
     }
 
-    public void setEstadoJugador(int estadoJugador) {
-        this.estadoJugador = estadoJugador;
-    }
 
     public void setDificultad(Dificultad dificultad) {
         this.dificultad = dificultad;
@@ -70,10 +63,6 @@ public class Partida {
 
     public int getCreditosJugador() {
         return creditosJugador;
-    }
-
-    public int getEstadoJugador() {
-        return estadoJugador;
     }
 
     public EstadoDeJuego getEstadoDeJuego() {
@@ -108,7 +97,8 @@ public class Partida {
                 dificultad.getPosicionJugadorX(),
                 dificultad.getPosicionJugadorY(),
                 dificultad.getCooldownJugador(),
-                dificultad.getVelocidadDelJugador()
+                dificultad.getVelocidadDelJugador(),
+                dificultad.getPuntosInicialJugador()
         );
     }
 
@@ -167,9 +157,7 @@ public class Partida {
         // Actualizar oleada
         if (oleada != null) {
             oleada.actualizar(anchoPanel);
-            // Verificar si las naves invasoras alcanzaron el límite crítico (perdiste)
-            // GRASP: Information Expert - Partida es experta en información del juego
-            int limiteCriticoY = jugador.getPosicionY()-20;
+            float limiteCriticoY = jugador.getPosicionY() - 30f;
             for (NaveInvasora nave : oleada.getNavesVivas()) {
                 // Verificar si la nave alcanzó o pasó la altura del jugador
                 if (nave.getPosicionY() + nave.getAlto() >= limiteCriticoY) {
@@ -195,7 +183,6 @@ public class Partida {
         this.nombreJugador = null;
         this.estadoDeJuego = EstadoDeJuego.MENU_PRINCIPAL;
         this.dificultad = Dificultad.SIN_INFORMAR;
-        this.estadoJugador = 0;
         this.creditosJugador = 0;
         this.nivel= 1;
     }
@@ -236,22 +223,23 @@ public class Partida {
      * Obtiene los datos del jugador para dibujar en la vista.
      * @return Lista con [posicionX, posicionY, ancho, alto]
      */
-    public List<Integer> getDatosJugadorADibujar() {
-        List<Integer> datosJugador = new ArrayList<>();
+    public float[] getDatosJugadorADibujar() {
         if (jugador != null) {
-            datosJugador.add(jugador.getPosicionX());
-            datosJugador.add(jugador.getPosicionY());
-            datosJugador.add(jugador.getAncho());
-            datosJugador.add(jugador.getAlto());
+            return new float[]{
+                    jugador.getPosicionX(),
+                    jugador.getPosicionY(),
+                    jugador.getAncho(),
+                    jugador.getAlto()
+            };
         }
-        return datosJugador;
+        return null;
     }
 
     /**
      * Obtiene los datos de los proyectiles para dibujar en la vista.
      * @return Lista de arrays con [posicionX, posicionY, ancho, alto]
      */
-    public List<int[]> getDatosProyectiles() {
+    public List<float[]> getDatosProyectiles() {
         if (jugador != null) {
             return jugador.getDatosProyectiles();
         }
@@ -262,22 +250,28 @@ public class Partida {
      * Obtiene los datos de las naves invasoras para dibujar en la vista.
      * @return Lista de arrays con [posicionX, posicionY]
      */
-    public List<int[]> getDatosNavesInvasoras() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosNavesInvasoras() {
+        List<float[]> datos = new ArrayList<>();
         if (oleada != null) {
             for (NaveInvasora nave : oleada.getNavesVivas()) {
-                datos.add(new int[]{nave.getPosicionX(), nave.getPosicionY()});
+                datos.add(new float[]{nave.getPosicionX(), nave.getPosicionY(), nave.getAncho(), nave.getAlto()});
             }
         }
         return datos;
     }
 
-    public List<int[]> getDatosMuro() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosMuro() {
+        List<float[]> datos = new ArrayList<>();
         if (muros != null) {
             for (MuroDeEnergia muro : muros) {
                 if(muro.getEstaVivo()){
-                    datos.add(new int[]{muro.getPosicionX(), muro.getPosicionY(), muro.getAncho(), muro.getAlto(),muro.getVida()});
+                    datos.add(new float[]{
+                            muro.getPosicionX(),
+                            muro.getPosicionY(),
+                            muro.getAncho(),
+                            muro.getAlto(),
+                            muro.getVida()
+                    });
                 }
             }
         }
@@ -289,8 +283,8 @@ public class Partida {
         // Crear 5 filas x 8 columnas de invasores
         for (int fila = 1; fila < 2; fila++) {
             for (int col = 0; col < 10; col++) {
-                int x = 5 + col * 100;
-                int y = 300 + fila * 40;
+                int x = 20 + col * 100;
+                int y = 320 + fila * 40;
                 MuroDeEnergia muro = new MuroDeEnergia(2, x, y);
                 muros.add(muro);
             }

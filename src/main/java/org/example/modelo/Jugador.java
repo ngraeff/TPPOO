@@ -10,18 +10,18 @@ public class Jugador {
 
     private int vida;
     private int puntosJugador;
-    private int posicionX;
-    private int posicionY;
+    private float posicionX;
+    private float posicionY;
     private int cooldownDisparo;
     private final int ancho = 30;
     private final int alto = 30;
-    private int velocidadDelJugador;
+    private float velocidadDelJugador;
     private List<Proyectil> proyectiles;
     private long ultimoDisparo;
 
-    public Jugador(int vida, int posicionX, int posicionY, int cooldownDisparo, int velocidadDelJugador) {
+    public Jugador(int vida, float posicionX, float posicionY, int cooldownDisparo, float velocidadDelJugador, int puntosJugador) {
         this.vida = vida;
-        this.puntosJugador = 1000;
+        this.puntosJugador = puntosJugador;
         this.posicionX = posicionX;
         this.posicionY = posicionY;
         this.cooldownDisparo = cooldownDisparo;
@@ -52,16 +52,16 @@ public class Jugador {
     // Agregar estos métodos a la clase Jugador
     public void moverIzquierda(int limiteIzquierdo) {
         if(this.posicionX > limiteIzquierdo) {
-            this.posicionX -= this.velocidadDelJugador ;
+            this.posicionX = Math.max((float) limiteIzquierdo, this.posicionX - this.velocidadDelJugador);
         }
     }
 
     public void moverDerecha(int limiteDerecho) {
-        if(this.posicionX < limiteDerecho - this.ancho*2) {
-            this.posicionX += this.velocidadDelJugador;
-        }
-        else {
-            this.posicionX = (limiteDerecho - this.ancho-20);
+        float limiteMaximo = limiteDerecho - this.ancho - 20;
+        if(this.posicionX < limiteMaximo) {
+            this.posicionX = Math.min(limiteMaximo, this.posicionX + this.velocidadDelJugador);
+        } else {
+            this.posicionX = limiteMaximo;
         }
 
     }
@@ -75,14 +75,14 @@ public class Jugador {
     }
 
     private void disparar() {
-        int xCentro = this.posicionX + (this.ancho / 2);
-        int yInicio = this.posicionY;
+        float xCentro = this.posicionX + (this.ancho / 2.0f);
+        float yInicio = this.posicionY;
         Proyectil nuevo = new Proyectil(
                 xCentro,
                 yInicio,
                 TipoProyectil.ALIADO,
                 true,
-                8
+                8f
         );
         proyectiles.add(nuevo);
     }
@@ -133,11 +133,11 @@ public class Jugador {
         return proyectiles;
     }
 
-    public List<int[]> getDatosProyectiles() {
-        List<int[]> datos = new ArrayList<>();
+    public List<float[]> getDatosProyectiles() {
+        List<float[]> datos = new ArrayList<>();
         for (Proyectil p : proyectiles) {
             if (p.isEstaActivo()) {
-                datos.add(new int[]{p.getPosicionX(), p.getPosicionY(), p.getAncho(), p.getAlto()});
+                datos.add(new float[]{p.getPosicionX(), p.getPosicionY(), p.getAncho(), p.getAlto()});
             }
         }
         return datos;
@@ -145,11 +145,11 @@ public class Jugador {
 
 
     // Getters para la vista
-    public int getPosicionX() { return posicionX; }
-    public int getPosicionY() { return posicionY; }
+    public float getPosicionX() { return posicionX; }
+    public float getPosicionY() { return posicionY; }
     public int getAncho() { return ancho; }
     public int getAlto() { return alto; }
-    public int getVelocidadDelJugador() { return velocidadDelJugador; }
+    public float getVelocidadDelJugador() { return velocidadDelJugador; }
     public int getCooldownDisparo() { return cooldownDisparo; }
 
     public int getVida() {

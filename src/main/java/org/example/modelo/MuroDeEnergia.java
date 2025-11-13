@@ -4,8 +4,8 @@ public class MuroDeEnergia {
     private int vida;
     private int posicionX;
     private int posicionY;
-    private final int ancho = 60;
-    private final int alto = 60;
+    private final int ancho = 50;
+    private final int alto = 10;
     private boolean estaVivo;
 
     public MuroDeEnergia(int vida, int posicionX, int posicionY) {

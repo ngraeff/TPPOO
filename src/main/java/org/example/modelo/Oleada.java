@@ -16,21 +16,15 @@ public class Oleada {
         this.naveInvasoras = naveInvasoras;
     }
 
-    /**
-     * Crea una oleada básica de naves invasoras.
-     * GRASP: Creator - Oleada sabe cómo crear el conjunto de naves que contiene.
-     * @param dificultad Dificultad del juego que determina la velocidad de las naves.
-     * @return Una oleada con 5 filas x 8 columnas de invasores.
-     */
     public static Oleada crearOleadaBasica(Dificultad dificultad, int nivel) {
         List<NaveInvasora> naves = new ArrayList<>();
-        int velocidadNavesInvasoras = dificultad.getVelocidadNavesEnemigas() + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel;
+        float velocidadNavesInvasoras = dificultad.getVelocidadNavesEnemigas() + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel;
 
         // Crear 5 filas x 8 columnas de invasores
         for (int fila = 0; fila < 5; fila++) {
             for (int col = 0; col < 8; col++) {
-                int x = 50 + col * 60;
-                int y = 50 + fila * 40;
+                float x = 50 + col * 60;
+                float y = 50 + fila * 40;
                 NaveInvasora nave = new NaveInvasora(x, y, velocidadNavesInvasoras, true);
                 naves.add(nave);
             }
@@ -48,7 +42,7 @@ public class Oleada {
         for (NaveInvasora nave : naveInvasoras) {
             if (nave.isEstaViva()) {
                 // Establecer velocidad a 0 para detener el movimiento
-                nave.setVelocidadDeMovimiento(0);
+                nave.setVelocidadDeMovimiento(0f);
             }
         }
     }
@@ -64,7 +58,7 @@ public class Oleada {
 
         boolean tocoBorde = false;
         for (NaveInvasora nave : getNavesVivas()) {
-            int x = nave.getPosicionX();
+            float x = nave.getPosicionX();
             if (x <= 0 || x + nave.getAncho() >= anchoPanel) {
                 tocoBorde = true;
                 break;
@@ -78,7 +72,7 @@ public class Oleada {
         // Clamp opcional para no salir del panel
         for (NaveInvasora nave : getNavesVivas()) {
             if (nave.getPosicionX() < 0) {
-                nave.setPosicionX(0);
+                nave.setPosicionX(0f);
             } else if (nave.getPosicionX() + nave.getAncho() > anchoPanel) {
                 nave.setPosicionX(anchoPanel - nave.getAncho());
             }
