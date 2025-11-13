@@ -16,12 +16,6 @@ public class Oleada {
         this.naveInvasoras = naveInvasoras;
     }
 
-    /**
-     * Crea una oleada básica de naves invasoras.
-     * GRASP: Creator - Oleada sabe cómo crear el conjunto de naves que contiene.
-     * @param dificultad Dificultad del juego que determina la velocidad de las naves.
-     * @return Una oleada con 5 filas x 8 columnas de invasores.
-     */
     public static Oleada crearOleadaBasica(Dificultad dificultad, int nivel) {
         List<NaveInvasora> naves = new ArrayList<>();
         float velocidadNavesInvasoras = dificultad.getVelocidadNavesEnemigas() + dificultad.getIncrementoVelocidadNavesEnemigas()*nivel;
