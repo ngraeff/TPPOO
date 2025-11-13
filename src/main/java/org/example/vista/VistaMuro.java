@@ -6,10 +6,6 @@ import java.util.List;
 
 public class VistaMuro {
 
-    public VistaMuro() {
-        // ya no se necesita cargar imagen
-    }
-
     public void dibujar(Graphics2D g2d, List<float[]> datosMuro) {
         if (datosMuro == null) return;
 
